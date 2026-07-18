@@ -1,0 +1,26 @@
+﻿# OPEN THIS PROJECT IN UNITY
+
+## Project path
+D:\Unity\MyFantasyWorld
+
+## Steps
+1. Open **Unity Hub**
+2. Click **Open** (or Add) → select folder `D:\Unity\MyFantasyWorld`
+3. Open with **Unity 6000.5.0f1** (already used to create this project)
+4. First open will import assets — wait (can take a long time)
+5. If scripts ask about Input System, choose **Yes** / use Input System package (already in project)
+6. Read guide: `Assets/MyWorld/Docs/SECTION_BY_SECTION_BUILD_BIBLE.md`
+7. Create your scene: File → New Scene → Save As `Assets/MyWorld/Scenes/MainWorld.unity`
+8. Start Section 1 (Terrain) from the bible
+
+## Already inside this project
+- URP (Universal Render Pipeline)
+- All pro scripts (Player, House, Car, Bike, Plane, Boat, World)
+- Art packs from your Downloads starter pack
+- Docs + PDFs under Assets/MyWorld/Docs/
+
+## Downloads backup (keep for safety)
+C:\Users\princ\Downloads\MyFantasyWorld_StarterPack
+
+## Old project
+D:\Unity\My_World_Game was removed after migration.

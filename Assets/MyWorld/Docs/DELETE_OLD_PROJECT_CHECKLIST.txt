@@ -1,0 +1,14 @@
+Before you delete D:\Unity\My_World_Game, confirm:
+
+[ ] This folder exists: Downloads\MyFantasyWorld_StarterPack
+[ ] Scripts folder has .cs files (Player, Vehicles, Buildings, World...)
+[ ] AssetsToImport has 3DForge, Forst, ALP, Textures, Models, Bridges, etc.
+[ ] Docs has FROM_SCRATCH guide + HOW_TO_USE_SCRIPTS (md + pdf)
+[ ] You created a NEW Unity Universal 3D (URP) project
+[ ] You copied Scripts into the new project and it compiles
+[ ] You imported at least Terrain textures + one tree pack + village pack
+[ ] You can enter Play mode and walk
+
+Then you may delete the old project.
+
+Keep MyFantasyWorld_StarterPack as backup for a few days.

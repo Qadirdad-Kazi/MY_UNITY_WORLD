@@ -1,0 +1,23 @@
+Import into a NEW Universal 3D (URP) project in this order:
+
+1) Scripts/  ->  Assets/MyWorld/Scripts/
+2) AllSkyFree
+3) ALP_Assets
+4) Free_Rocks
+5) Game_Textures + Game_Terrains + Game_Materials (if present)
+6) Game_RocksAndVegetation
+7) Game_Models
+8) Forst  (then double-click Conifers_URP.unitypackage inside it)
+9) 3DForge_FantasyExteriors
+10) 3DWorldInSeconds_Bridges
+11) EasyRoads3D
+12) KajamansRoads
+13) AQUAS-Lite (or Phantom water if present)
+14) Alstra_Boats (if present)
+15) StarterAssets (optional)
+16) Free_Island_Collection (optional / large)
+17) BushGrassBend (optional tool)
+
+After each pack: wait for import, fix pink materials to URP/Lit if needed.
+
+Then open Docs/FROM_SCRATCH_WORLD_BUILDING_GUIDE.md and Docs/HOW_TO_USE_SCRIPTS.md
