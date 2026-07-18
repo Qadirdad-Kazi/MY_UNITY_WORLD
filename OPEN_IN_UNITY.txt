@@ -1,4 +1,4 @@
-﻿# OPEN THIS PROJECT IN UNITY
+# OPEN THIS PROJECT IN UNITY
 
 ## Project path
 D:\Unity\MyFantasyWorld
