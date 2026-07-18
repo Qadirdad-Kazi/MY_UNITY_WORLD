@@ -73,3 +73,6 @@ CLEANUP_DOWNLOADS_AND_EXTRACT_CARS.bat
 
 # Plastic SCM
 .plastic/
+
+# GitHub 100MB limit
+Assets/Game_RocksAndVegetation/Models/Rock 9.fbx
