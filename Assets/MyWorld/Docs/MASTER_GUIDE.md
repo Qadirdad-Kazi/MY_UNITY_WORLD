@@ -149,8 +149,34 @@ On **Car Controller**:
 
 Better long-term fix: mesh + blue Z both face the hood, then leave invert **off**.
 
+### Driving camera (same MainCamera — do not add a second camera)
+
+Your **MainCamera** already has **Camera Follow Target**:
+
+| Mode | What happens |
+|------|----------------|
+| On foot | Follows `PlayerCameraRoot` with Offset `(0, 0.5, -4)` |
+| In car | Auto-switches to chase the car (behind / above) |
+| Reverse (S / backing up) | Camera **smoothly moves to the front** of the car so you see where you are going |
+
+**Adjust chase view** — select **MainCamera** → Camera Follow Target:
+
+| Field | Meaning |
+|-------|---------|
+| Drive Offset | Behind the car while going forward (try `0, 2.8, -7.5`) |
+| Reverse Offset | In front while reversing (try `0, 2.8, 6.5`) |
+| Drive Position Sharpness | How snappy the chase is |
+| Reverse Blend Speed | How fast it swings when you reverse |
+| Look Height | Point on the car the camera looks at |
+
+No extra camera object needed. Enter/exit switches this automatically.
+
+### Can’t stay in the car / E pops you out
+
+Usually the **same E press** enters and exits in one frame (worse when many scripts run on slopes). Scripts now **lock exit for ~0.45s** after enter. Update project scripts if you still see the old behaviour.
+
 ### Done when
-Enter → drive on flat ground → exit → walk again. Prefab saved under `MyWorld/Prefabs/Vehicles/`.
+Enter → drive on flat **and** slopes → exit → walk again. Prefab saved under `MyWorld/Prefabs/Vehicles/`.
 
 ---
 
@@ -244,6 +270,22 @@ VEHICLES
 
 When a car feels wrong, **do not rebuild it**. Change numbers on the root.
 
+## Fix “too slippery” right now (your current car)
+
+1. Select the car root in the Hierarchy (e.g. `Car_UAZ`)
+2. Find **Car Controller**
+3. Under **Grip**:
+   - **Forward Stiffness** → set **`2.2`**
+   - **Sideways Stiffness** → set **`2.2`**
+4. Optional: **Motor Torque** → lower a bit (e.g. `1600` → `1200`) so wheels don’t spin and slide
+5. Optional: **Rigidbody → Mass** → raise a little (e.g. `1500` → `1700`) so it feels planted
+6. Press **Play** and turn on flat ground, then on the mountain
+
+Still slides? Push both stiffness values to **`2.5`–`3.0`**.  
+Too sticky / can’t drift at all? Lower toward **`1.5`**.
+
+You can change these **while Playing** — grip re-applies every physics step.
+
 ## Where to click
 
 | What you want | Where in Inspector |
@@ -251,13 +293,66 @@ When a car feels wrong, **do not rebuild it**. Change numbers on the root.
 | How heavy the vehicle is | Root → **Rigidbody → Mass** |
 | How “springy” the suspension is | **Car Controller → Spring / Damper / Suspension Distance** |
 | Wheel size | **Car Controller → Wheel Radius** (and each WheelCollider Radius) |
-| Grip / slippery | Each **WheelCollider → Forward/Sideways Friction → Stiffness**  
-  *or* Car Controller → Forward Stiffness / Sideways Stiffness |
+| Grip / slippery | **Car Controller → Forward Stiffness / Sideways Stiffness** |
 | Power / top speed | Car Controller → Motor Torque, Max Speed Kmh |
+| How sharp turns feel | Sideways Stiffness + Max Steer Angle |
 | Tippy / flips | Move **COM** child lower; lower Motor Torque |
 | Handbrake | Space (if Use Space As Handbrake is on) |
 
 Same idea for **Bike Controller** / **Boat Controller** (mass on Rigidbody; other numbers on that script).
+
+## Feel presets (copy these numbers)
+
+Use these as starting points. Paste onto **Car Controller** (+ Mass on Rigidbody).
+
+### A) Daily / SUV (UAZ, Jeep) — planted, not icy
+
+| Setting | Value |
+|---------|-------|
+| Mass | 1600–1800 |
+| Forward Stiffness | 2.0–2.2 |
+| Sideways Stiffness | 1.9–2.2 |
+| Motor Torque | 1400–1600 |
+| Max Steer Angle | 28–32 |
+| Downforce | 40–60 |
+| Spring / Damper | 35000 / 4500 |
+
+### B) Sports car — sticky, sharp turns, sudden response
+
+| Setting | Value | Why |
+|---------|-------|-----|
+| Mass | 1100–1300 | Light = snappy |
+| Forward Stiffness | **2.4–2.8** | Strong accelerate grip |
+| Sideways Stiffness | **2.5–3.0** | **Sharp turns, little slide** |
+| Motor Torque | 1800–2200 | Quick punch |
+| Max Steer Angle | 32–36 | Responsive steering |
+| Max Speed Kmh | 160–200 | |
+| Downforce | **80–120** | Stays glued at speed |
+| Spring / Damper | 40000 / 5000 | Firmer ride |
+| COM | low, slightly forward | Stable under braking |
+
+**Sports tip:** high **Sideways Stiffness** = non-slippery cornering. If it still understeers (plows straight), raise sideways more or lower speed before the turn. If it spins out, lower Motor Torque a bit and keep sideways high.
+
+### C) Drift / playful (more slide on purpose)
+
+| Setting | Value |
+|---------|-------|
+| Mass | 1200–1400 |
+| Forward Stiffness | 1.4–1.6 |
+| Sideways Stiffness | **0.9–1.2** |
+| Motor Torque | 2000+ |
+| Handbrake | use Space to break rear grip |
+
+### D) Off-road mountain (less bounce + more grip)
+
+| Setting | Value |
+|---------|-------|
+| Mass | 1700–2000 |
+| Forward / Sideways Stiffness | 2.2–2.5 |
+| Spring | 28000–32000 |
+| Damper | 5500–7000 |
+| Suspension Distance | 0.2–0.28 |
+| Motor Torque | 1200–1500 |
 
 ## Mass cheat sheet (all vehicles)
 
@@ -280,8 +375,9 @@ Lighter = snappier, easier to bounce/flip.
 
 | Problem | What to change | Which way |
 |---------|----------------|-----------|
-| **Car is slippery** (slides like ice) | Wheel friction **Stiffness** (forward + sideways) on Car Controller or each WheelCollider | **Raise** (try 1.5 → 2.0) |
-| **Too sticky / won’t drift at all** | Stiffness | **Lower** a little (0.8–1.0) |
+| **Car is slippery** (slides like ice) | **Forward + Sideways Stiffness** | **Raise to 2.2–2.5** (sports: 2.5–3.0) |
+| **Too sticky / won’t drift at all** | Stiffness | **Lower** a little (1.2–1.5) |
+| **Want sharp sports turns** | Sideways Stiffness + Downforce + lighter Mass | Sideways **2.5+**, Downforce **80+**, Mass ~1200 |
 | **Bouncing / hopping** on flat ground | **Damper** up; **Spring** down a bit; Suspension Distance shorter | Damper 4500→6000; Spring 35000→28000 |
 | **Too soft / bottoms out** | Spring up; Suspension Distance a bit higher | |
 | **Flips over easily** | Lower **COM** child (more negative Y); lower Motor Torque; raise Mass slightly | |
@@ -295,17 +391,18 @@ Lighter = snappier, easier to bounce/flip.
 
 ## Suggested starter values (cars)
 
-| Setting | Starter | If bouncing | If slippery |
-|---------|---------|-------------|-------------|
-| Mass | 1500–1800 | keep / raise | keep |
-| Spring | 35000 | 28000–32000 | — |
-| Damper | 4500 | 5500–7000 | — |
-| Suspension Distance | 0.25 | 0.18–0.22 | — |
-| Wheel Radius | 0.35 | match mesh | — |
-| Forward Stiffness | 1.2 | — | 1.6–2.0 |
-| Sideways Stiffness | 1.1 | — | 1.5–2.0 |
-| Motor Torque | 1600 | lower if wheelspin | — |
-| COM | low center | lower more | — |
+| Setting | Normal | If slippery | Sports sticky |
+|---------|--------|-------------|-----------------|
+| Mass | 1500–1800 | raise a bit | 1100–1300 |
+| Spring | 35000 | — | 40000 |
+| Damper | 4500 | — | 5000 |
+| Suspension Distance | 0.25 | — | 0.2 |
+| Wheel Radius | 0.35 | match mesh | match mesh |
+| Forward Stiffness | **1.8** | **2.2–2.5** | **2.4–2.8** |
+| Sideways Stiffness | **1.7** | **2.2–2.5** | **2.5–3.0** |
+| Motor Torque | 1600 | lower if wheelspin | 1800–2200 |
+| Downforce | 50 | 60 | 80–120 |
+| COM | low center | lower more | low + slightly forward |
 
 **Tip:** change **one** thing, Play-test, then change the next. Easier to learn what each number does.
 
@@ -534,6 +631,9 @@ All under `Assets/MyWorld/Scripts/`.
 | First-person look | Camera offset `Z = -4` (behind), not `0` |
 | Missing script on camera | Remove it; use CameraFollowTarget only |
 | Can’t enter car (E) | Add PlayerInteraction; Tag Player; car needs collider |
+| E enters then instantly exits | Update VehicleEnterExit (exit lock); wait a moment before pressing E again |
+| Hard to enter on slopes | Stand closer; ExitPoint beside door; scripts snap exit to ground |
+| Want better car camera | MainCamera → Camera Follow Target → Drive Offset / Reverse Offset |
 | Input System errors (`Input.GetKey`) | Project uses new Input System; use updated MyWorld scripts |
 | Sitting faces car rear / drives wrong way | Mesh child Y=180 so hood = blue Z; see §3 |
 | Car flips | Lower COM; lower torque; raise mass a bit — §6 |

@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using MyWorld.Player;
 using MyWorld.Interaction;
+using MyWorld.World;
 
 namespace MyWorld.Vehicles
 {
     /// <summary>
-    /// Enter/exit any vehicle. Works with PlayerMotor OR StarterAssets PlayerArmature
-    /// (CharacterController + any behaviours on the player root).
+    /// Enter/exit any vehicle. Works with PlayerMotor OR StarterAssets PlayerArmature.
     /// Requires PlayerInteraction on the player for Press E.
     /// </summary>
     [RequireComponent(typeof(VehicleSeat))]
@@ -17,6 +17,9 @@ namespace MyWorld.Vehicles
         [SerializeField] private string exitPrompt = "Press E — Exit";
         [SerializeField] private VehicleControllerBase controller;
         [SerializeField] private float enterRadius = 3f;
+        [Tooltip("Ignore exit for this long after enter (stops same-frame E from ejecting you).")]
+        [SerializeField] private float exitLockSeconds = 0.45f;
+        [SerializeField] private float exitGroundProbe = 4f;
 
         private VehicleSeat _seat;
         private Transform _driver;
@@ -25,6 +28,8 @@ namespace MyWorld.Vehicles
         private CharacterController _driverCc;
         private Behaviour[] _disabledBehaviours;
         private bool _occupied;
+        private float _exitUnlockTime;
+        private CameraFollowTarget _camera;
 
         public string Prompt => _occupied ? exitPrompt : enterPrompt;
 
@@ -38,6 +43,7 @@ namespace MyWorld.Vehicles
         private void Update()
         {
             if (!_occupied) return;
+            if (Time.time < _exitUnlockTime) return;
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
                 ExitVehicle();
         }
@@ -79,6 +85,7 @@ namespace MyWorld.Vehicles
             if (_occupied || playerRoot == null) return;
 
             _occupied = true;
+            _exitUnlockTime = Time.time + exitLockSeconds;
             _driver = playerRoot;
             _driverMotor = playerRoot.GetComponent<PlayerMotor>();
             _driverInteraction = playerRoot.GetComponent<PlayerInteraction>();
@@ -87,14 +94,11 @@ namespace MyWorld.Vehicles
             if (_driverMotor != null) _driverMotor.SetMotorEnabled(false);
             if (_driverInteraction != null) _driverInteraction.SetInteractionEnabled(false);
 
-            // Disable common StarterAssets / movement behaviours while driving
             _disabledBehaviours = playerRoot.GetComponents<Behaviour>();
             foreach (var b in _disabledBehaviours)
             {
                 if (b == null || b == _driverInteraction) continue;
                 if (b is PlayerMotor) continue;
-                if (b is Transform) continue;
-                // Keep only non-movement stuff? Safer: disable known controllers by name
                 string n = b.GetType().Name;
                 if (n is "ThirdPersonController" or "StarterAssetsInputs" or "PlayerInput" or "BasicRigidBodyPush")
                     b.enabled = false;
@@ -112,16 +116,26 @@ namespace MyWorld.Vehicles
             _driver.localRotation = Quaternion.identity;
 
             if (controller != null) controller.SetPlayerDriving(true);
+
+            _camera = FindCamera();
+            if (_camera != null)
+                _camera.BeginDriving(transform, GetComponent<Rigidbody>());
         }
 
         public void ExitVehicle()
         {
             if (!_occupied || _driver == null) return;
 
+            if (_camera != null)
+            {
+                _camera.EndDriving();
+                _camera = null;
+            }
+
             if (controller != null) controller.SetPlayerDriving(false);
 
             _driver.SetParent(null, true);
-            Vector3 exitPos = _seat.ExitPoint.position;
+            Vector3 exitPos = ResolveExitPosition();
             Quaternion exitRot = _seat.ExitPoint.rotation;
 
             if (_seat.HidePlayerWhileSeated)
@@ -161,6 +175,26 @@ namespace MyWorld.Vehicles
             _driverInteraction = null;
             _driverCc = null;
             _disabledBehaviours = null;
+        }
+
+        private Vector3 ResolveExitPosition()
+        {
+            Vector3 exitPos = _seat.ExitPoint.position;
+            // Snap to ground so uneven terrain does not bury or float the player
+            Vector3 probe = exitPos + Vector3.up * 2f;
+            if (Physics.Raycast(probe, Vector3.down, out RaycastHit hit, exitGroundProbe + 2f, ~0, QueryTriggerInteraction.Ignore))
+                exitPos = hit.point + Vector3.up * 0.15f;
+            return exitPos;
+        }
+
+        private static CameraFollowTarget FindCamera()
+        {
+            if (Camera.main != null)
+            {
+                var onMain = Camera.main.GetComponent<CameraFollowTarget>();
+                if (onMain != null) return onMain;
+            }
+            return Object.FindFirstObjectByType<CameraFollowTarget>();
         }
 
 #if UNITY_EDITOR

@@ -41,9 +41,11 @@ namespace MyWorld.Vehicles
         [SerializeField] private float wheelRadius = 0.35f;
         [SerializeField] private float wheelMass = 30f;
 
-        [Header("Grip")]
-        [SerializeField] private float forwardStiffness = 1.2f;
-        [SerializeField] private float sidewaysStiffness = 1.1f;
+        [Header("Grip (raise these if the car slides like ice)")]
+        [Tooltip("Forward grip. Slippery ≈ 1.0 · Normal ≈ 1.8 · Sports sticky ≈ 2.4")]
+        [SerializeField] private float forwardStiffness = 1.8f;
+        [Tooltip("Side grip (turns). Slippery ≈ 1.0 · Normal ≈ 1.7 · Sports sharp ≈ 2.5")]
+        [SerializeField] private float sidewaysStiffness = 1.7f;
 
         [Header("Feel")]
         [SerializeField] private Transform centerOfMass;
@@ -84,16 +86,30 @@ namespace MyWorld.Vehicles
             wheel.suspensionSpring = js;
 
             WheelFrictionCurve fwd = wheel.forwardFriction;
+            fwd.extremumSlip = 0.4f;
+            fwd.extremumValue = 1f;
+            fwd.asymptoteSlip = 0.8f;
+            fwd.asymptoteValue = 0.75f;
             fwd.stiffness = forwardStiffness;
             wheel.forwardFriction = fwd;
 
             WheelFrictionCurve side = wheel.sidewaysFriction;
+            side.extremumSlip = 0.3f;
+            side.extremumValue = 1f;
+            side.asymptoteSlip = 0.6f;
+            side.asymptoteValue = 0.8f;
             side.stiffness = sidewaysStiffness;
             wheel.sidewaysFriction = side;
         }
 
         private void FixedUpdate()
         {
+            // Re-apply grip every physics step so Inspector tweaks work while playing
+            ConfigureWheel(wheelFL);
+            ConfigureWheel(wheelFR);
+            ConfigureWheel(wheelRL);
+            ConfigureWheel(wheelRR);
+
             if (!IsPlayerDriving) return;
 
             float speedKmh = _rb.linearVelocity.magnitude * 3.6f;
