@@ -1,10 +1,8 @@
 using UnityEngine;
+using MyWorld.Core;
 
 namespace MyWorld.Vehicles
 {
-    /// <summary>
-    /// Common API for all driveable vehicles.
-    /// </summary>
     public abstract class VehicleControllerBase : MonoBehaviour
     {
         public bool IsPlayerDriving { get; private set; }
@@ -15,7 +13,7 @@ namespace MyWorld.Vehicles
             enabled = driving;
         }
 
-        protected float Horizontal => Input.GetAxis("Horizontal");
-        protected float Vertical => Input.GetAxis("Vertical");
+        protected float Horizontal => GameInput.Horizontal;
+        protected float Vertical => GameInput.Vertical;
     }
 }

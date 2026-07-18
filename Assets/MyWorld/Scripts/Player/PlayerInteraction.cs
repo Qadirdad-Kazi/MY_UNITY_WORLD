@@ -1,17 +1,17 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using MyWorld.Interaction;
 
 namespace MyWorld.Player
 {
     /// <summary>
-    /// Detects IInteractable in front of the player. Default key: E.
+    /// Detects IInteractable in front of the player. Default key: E (Input System).
     /// </summary>
     public class PlayerInteraction : MonoBehaviour
     {
         [SerializeField] private float range = 2.5f;
         [SerializeField] private float radius = 0.35f;
         [SerializeField] private LayerMask interactMask = ~0;
-        [SerializeField] private KeyCode interactKey = KeyCode.E;
         [SerializeField] private Transform rayOrigin;
 
         private IInteractable _current;
@@ -29,7 +29,8 @@ namespace MyWorld.Player
             if (!_enabledInteraction) return;
 
             _current = FindInteractable();
-            if (_current != null && Input.GetKeyDown(interactKey) && _current.CanInteract(gameObject))
+            bool pressed = Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
+            if (_current != null && pressed && _current.CanInteract(gameObject))
                 _current.Interact(gameObject);
         }
 
@@ -44,7 +45,6 @@ namespace MyWorld.Player
                 if (interactable != null) return interactable;
             }
 
-            // Fallback overlap at reach point
             Collider[] cols = Physics.OverlapSphere(origin + dir * range * 0.6f, radius * 1.5f, interactMask, QueryTriggerInteraction.Collide);
             float best = float.MaxValue;
             IInteractable bestInteractable = null;
@@ -69,7 +69,6 @@ namespace MyWorld.Player
             if (!_enabledInteraction) return;
             string prompt = CurrentPrompt;
             if (string.IsNullOrEmpty(prompt)) return;
-            // Temporary debug prompt — replace with UI Toolkit / uGUI in production.
             var rect = new Rect(Screen.width * 0.5f - 120f, Screen.height * 0.72f, 240f, 28f);
             GUI.Box(rect, prompt);
         }

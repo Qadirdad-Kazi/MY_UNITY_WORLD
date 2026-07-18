@@ -1,10 +1,10 @@
 using UnityEngine;
+using MyWorld.Core;
 
 namespace MyWorld.Player
 {
     /// <summary>
-    /// Clean third-person / first-ish walker using CharacterController.
-    /// Attach to your player capsule/rig. For camera, use Cinemachine or a simple follow cam.
+    /// Clean third-person walker using CharacterController + Input System.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMotor : MonoBehaviour
@@ -49,8 +49,8 @@ namespace MyWorld.Player
                 groundMask,
                 QueryTriggerInteraction.Ignore);
 
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            float h = GameInput.Horizontal;
+            float v = GameInput.Vertical;
             Vector3 input = new Vector3(h, 0f, v).normalized;
 
             Vector3 move = Vector3.zero;
@@ -64,7 +64,7 @@ namespace MyWorld.Player
                 camRight.Normalize();
 
                 move = (camForward * input.z + camRight * input.x).normalized;
-                float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+                float speed = GameInput.SprintHeld ? runSpeed : walkSpeed;
                 move *= speed;
 
                 Quaternion targetRot = Quaternion.LookRotation(move, Vector3.up);
@@ -74,7 +74,7 @@ namespace MyWorld.Player
             if (IsGrounded && _velocity.y < 0f)
                 _velocity.y = groundedGravity;
 
-            if (IsGrounded && Input.GetButtonDown("Jump"))
+            if (IsGrounded && GameInput.JumpPressed)
                 _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
             _velocity.y += gravity * Time.deltaTime;

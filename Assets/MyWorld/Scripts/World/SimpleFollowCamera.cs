@@ -1,10 +1,8 @@
 using UnityEngine;
+using MyWorld.Core;
 
 namespace MyWorld.World
 {
-    /// <summary>
-    /// Simple follow camera for PlayerMotor testing (replace with Cinemachine later).
-    /// </summary>
     public class SimpleFollowCamera : MonoBehaviour
     {
         [SerializeField] private Transform target;
@@ -21,8 +19,9 @@ namespace MyWorld.World
         {
             if (target == null) return;
 
-            _yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            _pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            Vector2 mouse = GameInput.MouseDelta;
+            _yaw += mouse.x * mouseSensitivity;
+            _pitch -= mouse.y * mouseSensitivity;
             _pitch = Mathf.Clamp(_pitch, minPitch, maxPitch);
 
             Quaternion rot = Quaternion.Euler(_pitch, _yaw, 0f);

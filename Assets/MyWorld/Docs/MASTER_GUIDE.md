@@ -7,23 +7,29 @@ Other MDs in `Assets/MyWorld/Docs/` are extras / archive. Use **this file**.
 
 ---
 
-## Contents
+## Contents (what each section is for)
 
-1. [Before you start](#1-before-you-start)
-2. [PART A — Player (walk the world)](#2-part-a--player-walk-the-world)
-3. [PART B — First car (drive)](#3-part-b--first-car-drive)
-4. [PART C — All other vehicles](#4-part-c--all-other-vehicles)
-5. [WORLD §1 — Terrain & ground paint](#5-world-1--terrain--ground-paint)
-6. [WORLD §2 — Beach & water](#6-world-2--beach--water)
-7. [WORLD §3 — Forest & trees](#7-world-3--forest--trees)
-8. [WORLD §4 — Village & farm](#8-world-4--village--farm)
-9. [WORLD §5 — Roads & bridges](#9-world-5--roads--bridges)
-10. [WORLD §6 — Sky, day/night, polish](#10-world-6--sky-daynight-polish)
-11. [Asset locations cheat sheet](#11-asset-locations-cheat-sheet)
-12. [Scripts cheat sheet](#12-scripts-cheat-sheet)
-13. [Troubleshooting](#13-troubleshooting)
+Use this table to jump straight to what you need. Click a link, do only that section.
 
-**Recommended order:** A → B → visit world in Play → then World §1–§6 → then Part C (more vehicles).
+| # | Section | What it does (simple English) |
+|---|---------|-------------------------------|
+| 1 | [Before you start](#1-before-you-start) | Project path, scene name, how to keep Hierarchy tidy |
+| 2 | [Player (walk)](#2-part-a--player-walk-the-world) | Set up character + camera so you can walk the map |
+| 3 | [First car (full setup)](#3-part-b--first-car-full-setup-once) | Build **one** working car from scratch (do this once) |
+| 4 | [Second car (fastest way)](#4-second-car--and-every-car-after--fastest-way) | After car #1 works: duplicate / menu / swap mesh only |
+| 5 | [All vehicle types](#5-part-c--all-vehicle-types-cars-bikes-boats) | List of cars, bikes, boats and which script each uses |
+| 6 | [Tune vehicles (mass, slip, bounce)](#6-tune-vehicles--mass-grip-bounce-flips) | Change mass; fix slippery, bouncing, flipping cars |
+| 7 | [Terrain & ground paint](#7-world-1--terrain--ground-paint) | Sculpt land and paint sand / grass / dirt / rock |
+| 8 | [Beach & water](#8-world-2--beach--water) | Shoreline, water plane, pier, boats at the coast |
+| 9 | [Forest & trees](#9-world-3--forest--trees) | Paint trees, fix pink materials, place rocks |
+| 10 | [Village & farm](#10-world-4--village--farm) | Houses, fences, farm props, optional doors |
+| 11 | [Roads & bridges](#11-world-5--roads--bridges) | Paths between zones and place bridges |
+| 12 | [Sky & polish](#12-world-6--sky-daynight-polish) | Skybox, lighting, day/night, final clean-up |
+| 13 | [Asset paths](#13-asset-locations-cheat-sheet) | “Where is the X folder?” quick lookup |
+| 14 | [Scripts cheat sheet](#14-scripts-cheat-sheet) | Which component does what |
+| 15 | [Troubleshooting](#15-troubleshooting) | Common problems and quick fixes |
+
+**Recommended order:** §2 Player → §3 First car → Play → §4 more cars as needed → World §7–§12 → use §6 whenever a vehicle feels wrong.
 
 ---
 
@@ -34,7 +40,8 @@ Other MDs in `Assets/MyWorld/Docs/` are extras / archive. Use **this file**.
 | Pipeline | **URP** (Universal 3D) |
 | Scene | `Assets/Scenes/MY WORLD` |
 | Scripts | `Assets/MyWorld/Scripts/` |
-| Your prefabs | `Assets/MyWorld/Prefabs/` (create Vehicles/ under it) |
+| Your prefabs | `Assets/MyWorld/Prefabs/Vehicles/` |
+| Editor menus | Top bar → **MyWorld → Vehicles → …** |
 
 **Hierarchy habit (keep forever):**
 
@@ -45,7 +52,8 @@ MY WORLD
 │   ├── PlayerArmature
 │   └── MainCamera
 └── VEHICLES
-    ├── Car_Silverado
+    ├── Car_UAZ          ← first finished car (prefab this)
+    ├── Car_Mercedes     ← later cars = copies
     └── ...
 ```
 
@@ -53,7 +61,7 @@ MY WORLD
 
 # 2) PART A — Player (walk the world)
 
-Goal: walk around before anything else.
+**Goal:** walk around before anything else.
 
 ### Assets
 
@@ -78,7 +86,7 @@ Goal: walk around before anything else.
 10. Set **Offset** = `X:0  Y:0.5  Z:-4`  
     (`Z=-4` = third person behind. `Z=0` looks first-person)
 11. Select PlayerArmature → Tag = **Player**
-12. **Add Component** → `Player Interaction` (needed later for E on cars/doors)
+12. **Add Component** → `Player Interaction` (needed for **E** on cars/doors)
 13. Place player on flat ground slightly above terrain
 14. **Ctrl+S** → **Play**
 
@@ -97,63 +105,90 @@ You can walk beach ↔ trees without falling through ground.
 
 ---
 
-# 3) PART B — First car (drive)
+# 3) PART B — First car (full setup once)
 
-Goal: one playable car (Silverado) so you can visit the map by driving.
+**Goal:** make **one** car that you can enter, drive, and exit.  
+Do this carefully **once**. After it works, never rebuild from zero — use [§4](#4-second-car--and-every-car-after--fastest-way).
 
-### Assets
+**Good starter mesh:** UAZ FBX → `Assets/Game_Models/uaz/source/uaz.fbx`  
+(Mercedes FBX also fine. Some `.glb` cars are broken — prefer FBX.)
 
-| What | Path |
-|------|------|
-| Truck model | `Assets/Game_Models/chevrolet-silverado-1500-rst/source/` (`.glb`) |
-| Scripts | `Assets/MyWorld/Scripts/Vehicles/CarController.cs` |
-| | `VehicleSeat.cs`, `VehicleEnterExit.cs` |
+### Option A — automatic rig (recommended)
 
-### Step-by-step
+1. Drag the car FBX into the scene under empty parent `VEHICLES`
+2. Select the mesh
+3. Menu: **MyWorld → Vehicles → Create Car Rig From Selection**
+4. Fix orientation (very important):
+   - Select the **car root** → blue **Z** arrow must point out the **hood / front**
+   - If the mesh faces the wrong way: select **only the mesh child** → Rotation **Y = 180**
+5. Nudge `WC_FL` / `WC_FR` / `WC_RL` / `WC_RR` onto the visual wheels
+6. Move `Seat` into the driver seat; move `ExitPoint` beside the door
+7. Select root → **Rigidbody → Mass** (see [§6](#6-tune-vehicles--mass-grip-bounce-flips) for values)
+8. Play → walk up → **E** enter → **WASD** → **Space** handbrake → **E** exit
+9. Menu: **MyWorld → Vehicles → Save Selected Car As Prefab**
 
-1. Create empty parent `VEHICLES`
-2. Drag Silverado `.glb` into scene under `VEHICLES`
-3. Rename `Car_Silverado`
-4. Place on **flat** ground
-5. Add **Box Collider** on body (cover chassis)
-6. Add **Rigidbody**
-   - Mass `1600`
-   - Interpolation = Interpolate
-   - Collision Detection = Continuous
-7. Create empty child `COM` → move **low** in chassis center
-8. Create 4 empty children at wheel centers:
-   - `WC_FL`, `WC_FR`, `WC_RL`, `WC_RR`
-9. On each WC: **Add Component → Wheel Collider**
-   - Radius ≈ `0.35` (match visual wheel)
-   - Suspension Distance ≈ `0.25`
-10. On car root add:
-    - **Car Controller**
-    - **Vehicle Seat**
-    - **Vehicle Enter Exit**
-11. Assign on Car Controller: 4 WheelColliders + COM
-12. Create empty `ExitPoint` beside door → assign on Vehicle Seat
-13. Optional: assign visual wheel meshes on Car Controller
-14. Confirm player has **Player Interaction**
-15. Play → walk to car → **E** enter → **WASD** drive → **Space** handbrake → **E** exit
-16. Drag finished car into `Assets/MyWorld/Prefabs/Vehicles/Car_Silverado.prefab`
+### Option B — manual setup (same result)
 
-### Suspension (already on Car Controller)
+1. Create empty `VEHICLES` → drop mesh → rename e.g. `Car_UAZ`
+2. Place on **flat** ground
+3. Add **Box Collider** (cover chassis)
+4. Add **Rigidbody** — Mass `1500–1600`, Interpolation = Interpolate, Collision = Continuous
+5. Child `COM` → low in chassis center
+6. Children `WC_FL`, `WC_FR`, `WC_RL`, `WC_RR` + **Wheel Collider** each (radius ≈ visual wheel)
+7. On root: **Car Controller** + **Vehicle Seat** + **Vehicle Enter Exit**
+8. Assign 4 wheels + COM on Car Controller; ExitPoint on Vehicle Seat
+9. Blue Z = hood direction (mesh Y=180 if needed)
+10. Play test → save prefab
 
-| Setting | Starter |
-|---------|---------|
-| Spring | 30000–45000 |
-| Damper | 3500–5500 |
-| Suspension Distance | 0.25 |
-| COM | keep low |
+### If W/S or A/D feel backwards
+
+On **Car Controller**:
+
+- **Invert Throttle** — if W goes reverse  
+- **Invert Steer** — if A/D are swapped  
+
+Better long-term fix: mesh + blue Z both face the hood, then leave invert **off**.
 
 ### Done when
-You can enter, drive on flat ground, exit, and walk again.
+Enter → drive on flat ground → exit → walk again. Prefab saved under `MyWorld/Prefabs/Vehicles/`.
 
 ---
 
-# 4) PART C — All other vehicles
+# 4) Second car (and every car after) — fastest way
 
-Repeat Part B pattern. Save each as a prefab under `MyWorld/Prefabs/Vehicles/`.
+**You already have one working car.** Do **not** repeat §3 from scratch.
+
+### Fast path (2–5 minutes per car)
+
+1. Select your finished car in the Hierarchy  
+   **or** drag its prefab from `Assets/MyWorld/Prefabs/Vehicles/`
+2. Menu: **MyWorld → Vehicles → Duplicate Selected Car (fast clone)**  
+   (or Ctrl+D)
+3. Rename → e.g. `Car_Mercedes`
+4. Delete / replace **only the mesh child** with the new FBX
+5. Move new mesh to local `0,0,0` under the root
+6. Rotate mesh **Y = 180** only if hood ≠ blue Z arrow
+7. Slide `WC_*` onto the new wheels; move `Seat` + `ExitPoint`
+8. Set **Rigidbody Mass** for this vehicle type ([table in §6](#mass-cheat-sheet-all-vehicles))
+9. Play-test once
+10. **MyWorld → Vehicles → Save Selected Car As Prefab** (new name)
+
+### What you reuse (do not rebuild)
+
+| Keep on the root | Only change |
+|------------------|------------|
+| Rigidbody, Box Collider | Mass / collider size if needed |
+| Car Controller | Wheel refs if you remade WC objects |
+| Vehicle Seat + Enter Exit | Seat / Exit positions |
+| 4 WheelColliders | Local positions + radius |
+
+**Rule:** one good prefab = template. Every new car = **duplicate → swap mesh → nudge wheels/seat → save**.
+
+---
+
+# 5) PART C — All vehicle types (cars, bikes, boats)
+
+Save each as a prefab under `MyWorld/Prefabs/Vehicles/`.
 
 ### Cars / trucks
 
@@ -164,6 +199,7 @@ Repeat Part B pattern. Save each as a prefab under `MyWorld/Prefabs/Vehicles/`.
 | `Car_UAZ` | `Game_Models/uaz/source/uaz.fbx` | 1500 |
 | `Car_Jeep` | `Game_Models/jeep-gladiator/source/` (or `extracted/`) | 1800–2000 |
 | `Car_Lada` | `Game_Models/lada-2107/source/` (or `extracted/`) | 1400 |
+| `Car_Silverado` | prefer FBX if GLB fails | 1600–1800 |
 
 Scripts: **Car Controller** + Seat + Enter Exit + 4 WheelColliders.
 
@@ -195,21 +231,87 @@ Not in project. Script ready: `PlaneController.cs`. Download an airplane mesh la
 
 ```text
 VEHICLES
-  Car_Silverado   (road)
-  Car_Ferrari
-  Car_Mercedes
   Car_UAZ
-  Car_Jeep
-  Car_Lada
+  Car_Mercedes
+  Car_Ferrari
   Bike_Jawa
-  Bike_Street
   Boat_Wood       (in water)
-  Boat_Fisher
 ```
 
 ---
 
-# 5) WORLD §1 — Terrain & ground paint
+# 6) Tune vehicles — mass, grip, bounce, flips
+
+When a car feels wrong, **do not rebuild it**. Change numbers on the root.
+
+## Where to click
+
+| What you want | Where in Inspector |
+|---------------|--------------------|
+| How heavy the vehicle is | Root → **Rigidbody → Mass** |
+| How “springy” the suspension is | **Car Controller → Spring / Damper / Suspension Distance** |
+| Wheel size | **Car Controller → Wheel Radius** (and each WheelCollider Radius) |
+| Grip / slippery | Each **WheelCollider → Forward/Sideways Friction → Stiffness**  
+  *or* Car Controller → Forward Stiffness / Sideways Stiffness |
+| Power / top speed | Car Controller → Motor Torque, Max Speed Kmh |
+| Tippy / flips | Move **COM** child lower; lower Motor Torque |
+| Handbrake | Space (if Use Space As Handbrake is on) |
+
+Same idea for **Bike Controller** / **Boat Controller** (mass on Rigidbody; other numbers on that script).
+
+## Mass cheat sheet (all vehicles)
+
+| Vehicle | Rigidbody Mass | Notes |
+|---------|----------------|-------|
+| Small sports car | 1000–1300 | Light, easier to spin |
+| Sedan / Lada | 1200–1500 | |
+| UAZ / light SUV | 1500–1700 | Good default |
+| Pickup / Silverado | 1600–1900 | |
+| Heavy SUV / G-Class / Jeep | 1800–2200 | Feels planted |
+| Motorcycle | 220–280 | Much lighter than cars |
+| Boat | 400–1200 | Depends on size; tune with buoyancy |
+
+**How to change:** select vehicle root → Rigidbody → **Mass** → type value → Play and test.
+
+Heavier = harder to flip, slower to start moving.  
+Lighter = snappier, easier to bounce/flip.
+
+## Problem → what to change
+
+| Problem | What to change | Which way |
+|---------|----------------|-----------|
+| **Car is slippery** (slides like ice) | Wheel friction **Stiffness** (forward + sideways) on Car Controller or each WheelCollider | **Raise** (try 1.5 → 2.0) |
+| **Too sticky / won’t drift at all** | Stiffness | **Lower** a little (0.8–1.0) |
+| **Bouncing / hopping** on flat ground | **Damper** up; **Spring** down a bit; Suspension Distance shorter | Damper 4500→6000; Spring 35000→28000 |
+| **Too soft / bottoms out** | Spring up; Suspension Distance a bit higher | |
+| **Flips over easily** | Lower **COM** child (more negative Y); lower Motor Torque; raise Mass slightly | |
+| **Wheelspin, no speed** | Motor Torque down **or** friction stiffness up; check wheels touch ground | |
+| **Wheels sink into ground** | WheelCollider **Radius** too small, or WC position too low | Match visual wheel |
+| **Wheels float above ground** | Radius too big, or WC too high | |
+| **Drives toward the trunk** | Mesh Y=180 so hood faces blue Z; or Invert Throttle | |
+| **Steer left/right swapped** | Invert Steer, or swap FL/FR wheel assignments | |
+| **Boat sinks** | Boat Controller **Water Level Y** = water surface Y; raise Buoyancy | |
+| **Bike tips over** | Lower COM; lower Lean Strength; mass ~250 | |
+
+## Suggested starter values (cars)
+
+| Setting | Starter | If bouncing | If slippery |
+|---------|---------|-------------|-------------|
+| Mass | 1500–1800 | keep / raise | keep |
+| Spring | 35000 | 28000–32000 | — |
+| Damper | 4500 | 5500–7000 | — |
+| Suspension Distance | 0.25 | 0.18–0.22 | — |
+| Wheel Radius | 0.35 | match mesh | — |
+| Forward Stiffness | 1.2 | — | 1.6–2.0 |
+| Sideways Stiffness | 1.1 | — | 1.5–2.0 |
+| Motor Torque | 1600 | lower if wheelspin | — |
+| COM | low center | lower more | — |
+
+**Tip:** change **one** thing, Play-test, then change the next. Easier to learn what each number does.
+
+---
+
+# 7) WORLD §1 — Terrain & ground paint
 
 ### Goal
 Shape land + paint sand/grass/dirt/rock.
@@ -244,7 +346,7 @@ Beach reads sand, inland grass, mountains rock, paths dirt.
 
 ---
 
-# 6) WORLD §2 — Beach & water
+# 8) WORLD §2 — Beach & water
 
 ### Assets
 
@@ -270,7 +372,7 @@ Shoreline touches water; pier looks usable; path leads inland.
 
 ---
 
-# 7) WORLD §3 — Forest & trees
+# 9) WORLD §3 — Forest & trees
 
 ### Assets (Paint Trees prefabs)
 
@@ -293,14 +395,14 @@ Shoreline touches water; pier looks usable; path leads inland.
 8. Scatter rock prefabs in clusters
 
 ### Pink trees?
-Materials → Shader **Universal Render Pipeline/Lit** (oak was fixed once; Forst use **URP** prefabs only).
+Materials → Shader **Universal Render Pipeline/Lit** (Forst: use **URP** prefabs only).
 
 ### Done when
 Forest reads dense from distance; roads stay clear.
 
 ---
 
-# 8) WORLD §4 — Village & farm
+# 10) WORLD §4 — Village & farm
 
 ### Assets
 
@@ -332,7 +434,7 @@ Village feels lived-in; road connects beach → village → forest.
 
 ---
 
-# 9) WORLD §5 — Roads & bridges
+# 11) WORLD §5 — Roads & bridges
 
 ### Assets
 
@@ -359,7 +461,7 @@ You can walk or drive a clear loop to the bridge and back.
 
 ---
 
-# 10) WORLD §6 — Sky, day/night, polish
+# 12) WORLD §6 — Sky, day/night, polish
 
 ### Assets
 
@@ -377,22 +479,22 @@ You can walk or drive a clear loop to the bridge and back.
 2. Angle Directional Light for nice sun
 3. Global Volume: subtle Fog / Bloom
 4. Empty `DayNight` → add **Day Night Cycle** → assign sun light
-5. Optional: trigger boxes per zone + looping audio (waves/wind/birds — download audio if missing)
-6. Torches/campfires later (download VFX)
-7. Hide unused clutter; fix floating props; Ctrl+S
+5. Optional: trigger boxes per zone + looping audio
+6. Hide unused clutter; fix floating props; Ctrl+S
 
 ### Done when
 World looks coherent day and night; player can walk/drive the full route.
 
 ---
 
-# 11) Asset locations cheat sheet
+# 13) Asset locations cheat sheet
 
 | Need | Go here |
 |------|---------|
 | Player | `Assets/StarterAssets/ThirdPersonController/Prefabs/` |
 | My scripts | `Assets/MyWorld/Scripts/` |
 | My docs | `Assets/MyWorld/Docs/` |
+| Car setup menu | **MyWorld → Vehicles** (Unity top menu) |
 | Terrain paint layers | `Assets/SAND_1`, `GRASS_1`, … or `Game_Terrains/` |
 | Ground textures | `Assets/Game_Textures/` |
 | Paint trees | `Forst/.../URP/Prefabs/`, `ALP_Assets/.../Prefabs/`, `Game_RocksAndVegetation/Prefabs/` |
@@ -407,7 +509,7 @@ World looks coherent day and night; player can walk/drive the full route.
 
 ---
 
-# 12) Scripts cheat sheet
+# 14) Scripts cheat sheet
 
 | Goal | Components |
 |------|------------|
@@ -419,19 +521,24 @@ World looks coherent day and night; player can walk/drive the full route.
 | House enter | HouseDoor |
 | Day/night | DayNightCycle |
 | Zone name/audio | ZoneTrigger, AmbientZoneAudio |
+| Fast car rig | Menu **MyWorld → Vehicles → Create Car Rig From Selection** |
 
 All under `Assets/MyWorld/Scripts/`.
 
 ---
 
-# 13) Troubleshooting
+# 15) Troubleshooting
 
 | Problem | Fix |
 |---------|-----|
 | First-person look | Camera offset `Z = -4` (behind), not `0` |
 | Missing script on camera | Remove it; use CameraFollowTarget only |
-| Can’t enter car (E) | Add PlayerInteraction; Tag Player |
-| Car flips | Lower COM; lower torque |
+| Can’t enter car (E) | Add PlayerInteraction; Tag Player; car needs collider |
+| Input System errors (`Input.GetKey`) | Project uses new Input System; use updated MyWorld scripts |
+| Sitting faces car rear / drives wrong way | Mesh child Y=180 so hood = blue Z; see §3 |
+| Car flips | Lower COM; lower torque; raise mass a bit — §6 |
+| Slippery | Raise friction stiffness — §6 |
+| Bouncing | Raise damper, lower spring — §6 |
 | Wheels wrong | Adjust WheelCollider radius/position |
 | Texture paints whole terrain | Need 2+ layers; brush paints layer 2+ |
 | Pink materials | URP/Lit shader |
@@ -445,12 +552,13 @@ All under `Assets/MyWorld/Scripts/`.
 
 | Session | Do |
 |---------|----|
-| 1 | Part A Player + Part B Silverado |
-| 2 | World §1 + §2 (terrain, beach, water) |
-| 3 | World §3 Forest |
-| 4 | World §4 Village |
-| 5 | World §5 Roads + bridge |
-| 6 | World §6 Sky/polish + Part C more vehicles |
+| 1 | §2 Player + §3 First car + save prefab |
+| 2 | §4 Duplicate 1–2 more cars; use §6 if they feel bad |
+| 3 | World §7 + §8 (terrain, beach, water) |
+| 4 | World §9 Forest |
+| 5 | World §10 Village |
+| 6 | World §11 Roads + bridge |
+| 7 | World §12 Sky/polish + more vehicles |
 
 ---
 

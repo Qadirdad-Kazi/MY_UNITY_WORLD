@@ -1,4 +1,5 @@
 using UnityEngine;
+using MyWorld.Core;
 
 namespace MyWorld.Vehicles
 {
@@ -26,7 +27,11 @@ namespace MyWorld.Vehicles
         [SerializeField] private float maxSteerAngle = 30f;
         [SerializeField] private float maxSpeedKmh = 120f;
         [SerializeField] private bool allWheelDrive;
-        [SerializeField] private KeyCode handbrakeKey = KeyCode.Space;
+        [SerializeField] private bool useSpaceAsHandbrake = true;
+        [Tooltip("Enable if W goes backward (mesh faces opposite of transform.forward).")]
+        [SerializeField] private bool invertThrottle;
+        [Tooltip("Enable if A steers right / D steers left.")]
+        [SerializeField] private bool invertSteer;
 
         [Header("Suspension (applied on Awake)")]
         [SerializeField] private float suspensionDistance = 0.25f;
@@ -92,12 +97,13 @@ namespace MyWorld.Vehicles
             if (!IsPlayerDriving) return;
 
             float speedKmh = _rb.linearVelocity.magnitude * 3.6f;
-            float throttle = Vertical;
-            float steer = Horizontal * maxSteerAngle * Mathf.Lerp(1f, 0.45f, speedKmh / maxSpeedKmh);
+            float throttle = invertThrottle ? -Vertical : Vertical;
+            float steerInput = invertSteer ? -Horizontal : Horizontal;
+            float steer = steerInput * maxSteerAngle * Mathf.Lerp(1f, 0.45f, speedKmh / maxSpeedKmh);
 
             float motor = 0f;
             float brake = 0f;
-            bool handbrake = Input.GetKey(handbrakeKey);
+            bool handbrake = useSpaceAsHandbrake && GameInput.KeyHeld(UnityEngine.InputSystem.Key.Space);
 
             if (speedKmh < maxSpeedKmh)
                 motor = throttle * motorTorque;

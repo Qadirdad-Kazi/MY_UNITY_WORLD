@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using MyWorld.Player;
 using MyWorld.Interaction;
 
@@ -14,7 +15,6 @@ namespace MyWorld.Vehicles
     {
         [SerializeField] private string enterPrompt = "Press E — Drive";
         [SerializeField] private string exitPrompt = "Press E — Exit";
-        [SerializeField] private KeyCode exitKey = KeyCode.E;
         [SerializeField] private VehicleControllerBase controller;
         [SerializeField] private float enterRadius = 3f;
 
@@ -38,7 +38,7 @@ namespace MyWorld.Vehicles
         private void Update()
         {
             if (!_occupied) return;
-            if (Input.GetKeyDown(exitKey))
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
                 ExitVehicle();
         }
 
