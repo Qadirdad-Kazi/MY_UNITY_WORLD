@@ -25,7 +25,7 @@ Use this table to jump straight to what you need. Click a link, do only that sec
 | 10 | [Village & farm](#10-world-4--village--farm) | Houses, fences, farm props, optional doors |
 | 11 | [Roads & bridges](#11-world-5--roads--bridges) | Paths between zones and place bridges |
 | 12 | [Sky & polish](#12-world-6--sky-daynight-polish) | Skybox, lighting, day/night, final clean-up |
-| 13 | [Asset paths](#13-asset-locations-cheat-sheet) | “Where is the X folder?” quick lookup |
+| 13 | [Asset paths — what you want → where to look](#13-asset-locations-cheat-sheet) | Houses, trees, cars, boats, roads — full folder map |
 | 14 | [Scripts cheat sheet](#14-scripts-cheat-sheet) | Which component does what |
 | 15 | [Troubleshooting](#15-troubleshooting) | Common problems and quick fixes |
 
@@ -509,7 +509,9 @@ Forest reads dense from distance; roads stay clear.
 | Quick house | `.../Base/Templates/BasicHouse.prefab` |
 | Forest village | `.../Buildings/ForestVillage/ForestVillage02.prefab`, `Smithy.prefab` |
 | Farm | `.../Buildings/Farm/Stables/`, `Troughs/` |
-| Fences | `.../Fences/Fence01/`, `Fence02/` |
+| **Fence style 1** | `.../Fences/Fence01/` → e.g. `fi_vil_fence01_1m_C` (short post fence) |
+| **Fence style 2** | `.../Fences/Fence02/` → e.g. `fi_vil_fence02_2,5m_B`, `fi_vil_fence02_2,5m_C` + **gate** `fi_vil_fence02_gate_frame_gate` |
+| Fence parts (posts/cross) | `.../Fences/Fence parts/` → posts + cross pieces to build custom lengths |
 | Extra houses | `Assets/3DWorldInSeconds_Bridges/Prefabs/Houses/` |
 | Well / sheds | `Assets/Game_Models/old-village-well/`, `old-shack/` |
 | Door scripts | `Assets/MyWorld/Scripts/Buildings/HouseDoor.cs` |
@@ -519,12 +521,16 @@ Forest reads dense from distance; roads stay clear.
 1. Flatten village plateau; paint dirt + grass + small plaza
 2. Paint path into village first
 3. Place 3–6 houses facing the road (`BasicHouse` / ForestVillage)
-4. Add fences, stables, troughs, well
-5. Few trees at edges only
-6. Optional enterable house:
+4. Add **fences** — pick one style or mix both:
+   - **Fence01** = shorter / simpler rail fence
+   - **Fence02** = taller sections + has a **gate** prefab
+   - Use **Fence parts** if you need extra posts/crossbars
+5. Add stables, troughs, well
+6. Few trees at edges only
+7. Optional enterable house:
    - Empty at door + collider + **House Door**
    - `InteriorSpawn` + `ExteriorSpawn`
-7. Save good houses to `MyWorld/Prefabs/Buildings/`
+8. Save good houses to `MyWorld/Prefabs/Buildings/`
 
 ### Done when
 Village feels lived-in; road connects beach → village → forest.
@@ -586,23 +592,70 @@ World looks coherent day and night; player can walk/drive the full route.
 
 # 13) Asset locations cheat sheet
 
-| Need | Go here |
-|------|---------|
-| Player | `Assets/StarterAssets/ThirdPersonController/Prefabs/` |
+**One table for everything.** Folders are named by asset pack (vendor), not always `Houses/` / `Trees/`. Use this to find what you need fast.
+
+### What you want → where to look
+
+| What you want | Where to look |
+|---------------|----------------|
+| **Houses / village** | `Assets/3DForge_FantasyExteriors/FantasyExteriors/Village & Towns/Prefabs/` |
+| Quick house template | `.../Village & Towns/Prefabs/Base/Templates/BasicHouse.prefab` |
+| Forest village / smithy | `.../Prefabs/Buildings/ForestVillage/` |
+| Farm (stables, troughs) | `.../Prefabs/Buildings/Farm/` |
+| **Fence 1 (Fence01)** | `.../Prefabs/Fences/Fence01/` — shorter fence (`fi_vil_fence01_1m_C`) |
+| **Fence 2 (Fence02)** | `.../Prefabs/Fences/Fence02/` — taller fence (`fi_vil_fence02_2,5m_B` / `_C`) + **gate** |
+| Fence parts | `.../Prefabs/Fences/Fence parts/` — posts + cross pieces |
+| Village materials (pink fix) | `.../Village & Towns/Materials/` → set shader **URP/Lit** |
+| **Extra houses** | `Assets/3DWorldInSeconds_Bridges/Prefabs/Houses/` |
+| Well / old shack | `Assets/Game_Models/old-village-well/`, `old-shack/` |
+| **Trees (pines)** | `Assets/Forst/Conifers [BOTD]/Render Pipeline Support/URP/Prefabs/` ← **use URP only** |
+| **Trees (oak / poplar)** | `Assets/ALP_Assets/Big Oak Tree FREE/Prefabs/` |
+| **Trees / bushes / ferns** | `Assets/Game_RocksAndVegetation/Prefabs/` |
+| **Rocks** | `Assets/Free_Rocks/_prefabs/` and `Assets/Game_RocksAndVegetation/Prefabs/` |
+| **Cars / bikes** | `Assets/Game_Models/` (each vehicle in its own subfolder: `uaz/`, `mercedes-.../`, etc.) |
+| **Boats** | `Assets/Alstra_Boats/Boats LowPoly/Prefabs/` |
+| **Bridges** | `Assets/3DWorldInSeconds_Bridges/Prefabs/Models/` → `Model_Bridge_*` (not `*_Proto`) |
+| **Roads** | `Assets/EasyRoads3D/`, `Assets/KajamansRoads/Free/Prefabs/` |
+| **Water** | `Assets/AQUAS-Lite/Prefabs/`, `Assets/Game_Materials/` (`Sea_Water`, `Beach_Water`) |
+| **Ground textures** | `Assets/Game_Textures/` |
+| Terrain layers (paint) | `Assets/SAND_1.terrainlayer`, `GRASS_1`, `DIRT_1`, `FOREST_FLOOR_1`, … or `Assets/Game_Terrains/` |
+| **Sky** | `Assets/AllSkyFree/` |
+| **Player** | `Assets/StarterAssets/ThirdPersonController/Prefabs/` (`PlayerArmature`, `MainCamera`) |
+| **Your finished prefabs** | `Assets/MyWorld/Prefabs/` (`Vehicles/`, `Buildings/` — what *you* save) |
 | My scripts | `Assets/MyWorld/Scripts/` |
-| My docs | `Assets/MyWorld/Docs/` |
-| Car setup menu | **MyWorld → Vehicles** (Unity top menu) |
-| Terrain paint layers | `Assets/SAND_1`, `GRASS_1`, … or `Game_Terrains/` |
-| Ground textures | `Assets/Game_Textures/` |
-| Paint trees | `Forst/.../URP/Prefabs/`, `ALP_Assets/.../Prefabs/`, `Game_RocksAndVegetation/Prefabs/` |
-| Village | `3DForge_FantasyExteriors/.../Prefabs/` |
-| Bridges | `3DWorldInSeconds_Bridges/Prefabs/Models/` |
-| Roads | `EasyRoads3D/`, `KajamansRoads/Free/Prefabs/` |
-| Water | `AQUAS-Lite/Prefabs/`, `Game_Materials/` |
-| Boats | `Alstra_Boats/Boats LowPoly/Prefabs/` |
-| Cars/bikes | `Game_Models/` |
-| Skies | `AllSkyFree/` |
-| Rocks | `Free_Rocks/_prefabs/`, `Game_RocksAndVegetation/Prefabs/` |
+| This guide + docs | `Assets/MyWorld/Docs/` |
+| Car setup menu | Unity top bar → **MyWorld → Vehicles** |
+| Pier | `Assets/Game_Models/wooden-pier/` |
+| Free island textures | `Assets/Free_Island_Collection/Environment/Terrain/Textures/` |
+
+### Pack folders at a glance
+
+```text
+Assets/
+├── 3DForge_FantasyExteriors/     ← houses, fences, farm, village
+├── Forst/ + ALP_Assets/          ← trees (pines + oak)
+├── Game_RocksAndVegetation/      ← trees, bushes, rocks
+├── Free_Rocks/                   ← more rocks
+├── Game_Models/                  ← cars, bikes, well, pier, props
+├── Alstra_Boats/                 ← boats
+├── 3DWorldInSeconds_Bridges/     ← bridges + some houses
+├── EasyRoads3D/ + KajamansRoads/ ← roads
+├── AQUAS-Lite/ + Game_Materials/ ← water
+├── Game_Textures/ + Game_Terrains/ ← ground paint
+├── AllSkyFree/                   ← skyboxes
+├── StarterAssets/                ← player
+└── MyWorld/Prefabs/              ← YOUR finished cars / houses
+```
+
+### Pink assets?
+
+| Asset | Fix |
+|-------|-----|
+| Village houses (3DForge) | Materials → Shader **Universal Render Pipeline/Lit** (or Render Pipeline Converter: Built-in → URP Universal Renderer) |
+| Forst pines | Use the **URP/Prefabs** folder, not the default Built-in ones |
+| ALP oak | Materials → **URP/Lit** if pink |
+
+More build steps for each zone: World §7–§12 in this same file.
 
 ---
 

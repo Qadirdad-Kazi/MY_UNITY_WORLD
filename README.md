@@ -38,6 +38,7 @@ Click a link to jump. Read only what you need.
 | | [10 — Village](Assets/MyWorld/Docs/MASTER_GUIDE.md#10-world-4--village--farm) | Houses and farm |
 | | [11 — Roads & bridges](Assets/MyWorld/Docs/MASTER_GUIDE.md#11-world-5--roads--bridges) | Paths and bridges |
 | | [12 — Sky & polish](Assets/MyWorld/Docs/MASTER_GUIDE.md#12-world-6--sky-daynight-polish) | Sky, lighting, finish |
+| | [13 — Asset folders](Assets/MyWorld/Docs/MASTER_GUIDE.md#13-asset-locations-cheat-sheet) | Houses, trees, cars, boats — where each folder is |
 | | [15 — Troubleshooting](Assets/MyWorld/Docs/MASTER_GUIDE.md#15-troubleshooting) | Common fixes |
 
 ### Other docs (archive — optional)
