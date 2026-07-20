@@ -20,11 +20,11 @@ Use this table to jump straight to what you need. Click a link, do only that sec
 | 5 | [All vehicle types](#5-part-c--all-vehicle-types-cars-bikes-boats) | List of cars, bikes, boats and which script each uses |
 | 6 | [Tune vehicles (mass, slip, bounce)](#6-tune-vehicles--mass-grip-bounce-flips) | Change mass; fix slippery, bouncing, flipping cars |
 | 7 | [Terrain & ground paint](#7-world-1--terrain--ground-paint) | Sculpt land and paint sand / grass / dirt / rock |
-| 8 | [Beach & water](#8-world-2--beach--water) | Shoreline, water plane, pier, boats at the coast |
+| 8 | [Beach, boats, fish, sea](#8-world-2--beach-water-boats-fish--surrounding-sea) | Cove water, drivable boats, fish, ocean around island |
 | 9 | [Forest & trees](#9-world-3--forest--trees) | Paint trees, fix pink materials, place rocks |
 | 10 | [Village & farm](#10-world-4--village--farm) | Houses, fences, farm props, optional doors |
 | 11 | [Roads & bridges](#11-world-5--roads--bridges) | Paths between zones and place bridges |
-| 12 | [Sky & polish](#12-world-6--sky-daynight-polish) | Skybox, lighting, day/night, final clean-up |
+| 12 | [Sky, weather, fog](#12-world-6--sky-daynight-weather-fog--polish) | AllSkyFree skies, day/night, random rain, forest fog |
 | 13 | [Asset paths — what you want → where to look](#13-asset-locations-cheat-sheet) | Houses, trees, cars, boats, roads — full folder map |
 | 14 | [Scripts cheat sheet](#14-scripts-cheat-sheet) | Which component does what |
 | 15 | [Troubleshooting](#15-troubleshooting) | Common problems and quick fixes |
@@ -443,29 +443,180 @@ Beach reads sand, inland grass, mountains rock, paths dirt.
 
 ---
 
-# 8) WORLD §2 — Beach & water
+# 8) WORLD §2 — Beach water, boats, fish & surrounding sea
+
+Two separate water bodies:
+
+| Water | Purpose | Size |
+|-------|---------|------|
+| **Beach cove** | Play area at the beach — boats, fish, pier | Small (one cove) |
+| **World sea** | Ocean around the whole island on all 4 sides | Huge (covers map edges) |
+
+**Important:** Your project is **URP**. Do **not** use `AQUAS-Lite` prefabs (Built-in shaders = pink). Use **URP water** below.
 
 ### Assets
 
-| Type | Path |
-|------|------|
-| Water plane | `Assets/AQUAS-Lite/Prefabs/WaterPlane` |
-| Water mats | `Assets/Game_Materials/Sea_Water.mat`, `Beach_Water.mat` |
-| Pier mesh | `Assets/Game_Models/wooden-pier/` |
-| Boats | `Assets/Alstra_Boats/Boats LowPoly/Prefabs/` |
-| Rocks | `Assets/Free_Rocks/_prefabs/` |
+| Type | Path | URP? |
+|------|------|------|
+| **Best beach/cove water** | `Assets/3DWorldInSeconds_Bridges/Materials/Nature/LakeWater.mat` | ✓ URP shader |
+| River water (alt) | `Assets/3DWorldInSeconds_Bridges/Materials/Nature/RiverWater.mat` | ✓ URP |
+| Simple sea color | `Assets/Game_Materials/Sea_Water.mat` | ✓ URP Lit |
+| Shallow beach tint | `Assets/Game_Materials/Beach_Water.mat` | ✓ URP Lit |
+| ~~AQUAS-Lite~~ | `Assets/AQUAS-Lite/` | ✗ Built-in only — avoid |
+| Boats | `Assets/Alstra_Boats/Boats LowPoly/Prefabs/` | ✓ |
+| Fish / shark | `.../Prefabs/FishV1`–`FishV4`, `SharkV1` | ✓ static meshes |
+| Fish swim script | `Assets/MyWorld/Scripts/World/FishSwim.cs` | |
+| Boat drive script | `Assets/MyWorld/Scripts/Vehicles/BoatController.cs` | |
+| Pier | `Assets/Game_Models/wooden-pier/` | |
+| Sand paint | `Assets/SAND_1.terrainlayer`, `Assets/Game_Materials/Layer_Sand/` | |
+| Coastal rocks | `Assets/Free_Rocks/_prefabs/` | |
 
-### Steps
+### Hierarchy (keep tidy)
 
-1. Flatten south/coast strip
-2. Paint **Sand** at waterline
-3. Place `WaterPlane` (or Plane + Sea_Water) at sea level Y
-4. Place pier + 1–2 boats + few rocks
-5. Soft blend sand → grass inland
-6. Optional: Zone empty `Zone_Beach` + later audio
+```text
+MY WORLD
+├── MAIN_GROUND (Terrain)
+├── WATER
+│   ├── Beach_Cove_Water      ← small cove at beach
+│   ├── Ocean_Sea             ← huge sea around island
+│   └── Underwater_Life
+│       ├── Fish_School_01
+│       └── Fish_School_02
+├── BEACH
+│   ├── Pier
+│   └── Rocks
+└── VEHICLES
+    └── Boat_Wood (drivable)
+```
+
+---
+
+### PART A — Beach cove water (realistic, local)
+
+**Goal:** A calm water area at your beach for boats and fish.
+
+1. **Pick one water height** for the whole project (example: **Y = 10**).  
+   Write it down — boats and fish use the same number.
+
+2. **Sculpt beach:** Select Terrain → flatten a **coast strip** → paint **Sand** (`SAND_1`) at the shoreline.
+
+3. **Create beach water plane:**
+   - **Hierarchy → 3D Object → Plane** → rename **`Beach_Cove_Water`**
+   - Move to your cove center, **Y = your water level** (e.g. 10)
+   - **Scale** to cover only the cove (e.g. `X:15  Y:1  Z:20`) — not the whole map
+   - Parent under empty **`WATER`**
+
+4. **Realistic material:**
+   - Drag material **`LakeWater.mat`** onto the plane  
+     (`Assets/3DWorldInSeconds_Bridges/Materials/Nature/LakeWater.mat`)
+   - If too dark/light: duplicate mat → tweak **Depth**, **Foam**, **Color** in Inspector
+
+5. **Shore blend:** Lower terrain slightly at the water edge so sand meets water (no gap, no cliff).
+
+6. **Colliders:** Water plane **no collider** (boats use buoyancy script, not water collider).
+
+7. **Optional pier + rocks:**
+   - Pier from `Game_Models/wooden-pier/`
+   - Rocks from `Free_Rocks/_prefabs/` along shore
+
+**Done when:** Cove looks like calm realistic water touching sand.
+
+---
+
+### PART B — Drivable boats on beach water
+
+1. Drag prefab e.g. **`Wood_BoatV1`** from  
+   `Assets/Alstra_Boats/Boats LowPoly/Prefabs/` into the cove
+2. On boat root add:
+   - **Rigidbody** — Mass `400`–`800`, Use Gravity on
+   - **Boat Controller**
+   - **Vehicle Seat** + **Vehicle Enter Exit**
+3. On **Boat Controller** set **Water Level Y** = same as water plane Y (e.g. `10`)
+4. Empty child **`Seat`** in cockpit, **`ExitPoint`** beside boat
+5. **Play** → walk to boat → **E** enter → **WASD** drive → **E** exit
+
+| Boat prefab | Good for |
+|-------------|----------|
+| `Wood_BoatV1` / `Wood_BoatV2` | Beach / calm cove |
+| `Fisher_Boat` | Pier fishing look |
+| `KayakV1` | Shallow water |
+| `Speed_Boat` / `JetskiV1` | Fast fun (later) |
+
+Save finished boat under `Assets/MyWorld/Prefabs/Vehicles/Boat_Wood.prefab`.
+
+---
+
+### PART C — Fish underwater
+
+Fish are **prefabs only** — add **`FishSwim`** for simple movement.
+
+1. Under **`WATER/Underwater_Life`**, drag **`FishV1`**–**`FishV4`** from Alstra prefabs
+2. Place **below** water surface (e.g. water Y = 10 → fish at Y = **7**–**9**)
+3. Rotate fish to face along the cove
+4. **Add Component → Fish Swim** on each (or parent school empty)
+5. **Fish Swim settings:**
+   - **Depth Lock Y** = fish depth (e.g. `8`)
+   - **Wander Radius** = `5`–`10`
+6. Optional: **`SharkV1`** farther out, larger wander radius
+
+**Tip:** Duplicate 5–10 fish, vary positions — looks like a school.
+
+---
+
+### PART D — World sea (surrounds whole island, all 4 sides)
+
+**Goal:** Huge ocean around the terrain edges — **separate** from the beach cove plane, same water level.
+
+This is **not** connected to the cove mesh — it sits under/at map edges so the island looks surrounded by sea.
+
+1. Create **`Ocean_Sea`** under **`WATER`**
+2. **3D Object → Plane** → rename **`Ocean_Sea`**
+3. Position **center of your terrain**, **Y = same water level** as beach (e.g. 10)
+4. **Scale very large** — must extend past all terrain edges:  
+   - Start with **X:500  Z:500** (adjust to your map size)  
+   - Rule: plane edges must be **beyond** the furthest terrain corner on all 4 sides
+5. Material options:
+   - **Deeper look:** `Sea_Water.mat` (`Game_Materials/`)
+   - **Same realistic shader:** duplicate `LakeWater.mat` → darker/deeper color → assign here
+6. **Terrain vs sea:** Terrain island should sit **above** water Y; edges slope down to coast/beach. Sea plane is flat below/at horizon.
+7. **Beach cove plane** sits **on top** of the same Y — cove is the shallow play zone; ocean is the backdrop ring.
+
+```text
+Top view:
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Ocean_Sea (huge)
+    ~~~                     ~~~~~
+    ~~~   [  ISLAND / MAP ] ~~~~~
+    ~~~      [cove]        ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+8. **Later polish:** fog at horizon (§12), slightly darker sea material, beach foam rocks.
+
+**Do not** scale one plane for both cove + ocean — use **two planes**: small cove + huge ocean.
+
+---
+
+### PART E — Zone & audio (optional)
+
+1. Empty **`Zone_Beach`** with Box Collider trigger + **Zone Trigger**  
+   Display name: `Beach`
+2. Loop wave audio when player enters (download or add later)
+3. Optional **`Fog_Beach`** very light haze (§12)
+
+### Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| Water is **pink** | Use `LakeWater.mat` or `Sea_Water.mat` — not AQUAS-Lite |
+| Boat sinks / floats wrong | **Water Level Y** on Boat Controller = plane Y exactly |
+| Boat won’t enter | Player needs **Player Interaction**; boat needs **Vehicle Enter Exit** |
+| Fish floating above water | Lower fish Y; set **Depth Lock Y** on Fish Swim |
+| Sea doesn’t surround island | Increase **Ocean_Sea** scale; center on terrain middle |
+| Gap between sand and water | Lower terrain edge at shoreline; match water Y |
 
 ### Done when
-Shoreline touches water; pier looks usable; path leads inland.
+Beach cove has realistic water, 1+ drivable boat, fish swimming, and huge sea visible around all map edges.
 
 ---
 
@@ -490,6 +641,7 @@ Shoreline touches water; pier looks usable; path leads inland.
 6. Paint Details (grass/ferns) lightly
 7. Hand-place 2–3 hero trees for landmarks
 8. Scatter rock prefabs in clusters
+9. **Forest fog** — see [§12 Forest / zone fog](#steps--forest-fog-and-other-zones)
 
 ### Pink trees?
 Materials → Shader **Universal Render Pipeline/Lit** (Forst: use **URP** prefabs only).
@@ -564,29 +716,127 @@ You can walk or drive a clear loop to the bridge and back.
 
 ---
 
-# 12) WORLD §6 — Sky, day/night, polish
+# 12) WORLD §6 — Sky, day/night, weather, fog & polish
 
-### Assets
+Everything for atmosphere: skies, moving sun, random weather/rain, and local fog (forest, beach).
+
+### Scripts & assets
 
 | Type | Path |
 |------|------|
-| Skies | `Assets/AllSkyFree/` (assign skybox material) |
-| Day/night script | `Assets/MyWorld/Scripts/World/DayNightCycle.cs` |
-| Zone trigger | `ZoneTrigger.cs` |
+| AllSkyFree skies | `Assets/AllSkyFree/` |
+| Day/night (sun moves) | `Assets/MyWorld/Scripts/World/DayNightCycle.cs` |
+| Random weather + rain | `Assets/MyWorld/Scripts/World/WeatherSystem.cs` |
+| Zone fog (forest mist) | `Assets/MyWorld/Scripts/World/ZoneFog.cs` |
+| Zone name popup | `ZoneTrigger.cs` |
 | Zone audio | `AmbientZoneAudio.cs` |
-| Volume / look | Scene Global Volume (URP) |
 
-### Steps
+---
 
-1. **Window → Rendering → Lighting → Environment** → assign AllSkyFree skybox
-2. Angle Directional Light for nice sun
-3. Global Volume: subtle Fog / Bloom
-4. Empty `DayNight` → add **Day Night Cycle** → assign sun light
-5. Optional: trigger boxes per zone + looping audio
-6. Hide unused clutter; fix floating props; Ctrl+S
+### Steps — add a sky (AllSkyFree)
+
+**No script needed** for a static sky. For day/night + weather, use the scripts below.
+
+1. Project → `Assets/AllSkyFree/` → pick a folder
+2. Recommended **realistic** skies:
+
+| Use | Material path |
+|-----|---------------|
+| Sunny day | `Epic_BlueSunset/Epic_BlueSunset.mat` |
+| Cloudy / rain | `Overcast Low/AllSky_Overcast4_Low.mat` |
+| Storm look | `Deep Dusk/Deep Dusk.mat` |
+| Night + stars | `Night MoonBurst/Night Moon Burst.mat` |
+| Night (alt) | `Cold Night/Cold Night.mat` |
+
+3. **Window → Rendering → Lighting → Environment**
+4. **Skybox Material** → drag your `.mat` (only if you are **not** using Weather System yet)
+5. **Ctrl+S**
+
+Skip **Cartoon Base BlueSky** if you want realistic.
+
+---
+
+### Steps — day/night (moving sun + stars at night)
+
+1. Create empty **`DayNight`**
+2. **Add Component → Day Night Cycle**
+3. **Sun field:** drag **Directional Light** from Hierarchy onto **Sun**  
+   (or click ⊙ next to Sun → pick Directional Light)
+4. **Day Length Minutes** = `12` (full day/night cycle time)
+5. On **Day Night Cycle** (optional if no Weather System):
+   - **Day Sky** = `Epic_BlueSunset.mat`
+   - **Night Sky** = `Night Moon Burst.mat` or `Cold Night.mat`
+
+**Why night sky?** Epic sunset has a **baked sun in the texture** — at night you must swap to a star sky or the sun stays visible.
+
+---
+
+### Steps — random weather + rain
+
+1. Select **`DayNight`** → **Add Component → Weather System**
+2. Assign skies (drag from `Assets/AllSkyFree/`):
+
+| Inspector slot | Material | When |
+|----------------|----------|------|
+| **Clear Sky** | `Epic_BlueSunset/Epic_BlueSunset.mat` | Sunny |
+| **Cloudy Sky** | `Overcast Low/AllSky_Overcast4_Low.mat` | Cloudy |
+| **Rain Sky** | `Overcast Low/AllSky_Overcast4_Low.mat` | Rain |
+| **Storm Sky** | `Deep Dusk/Deep Dusk.mat` | Storm |
+| **Night Sky** | `Night MoonBurst/Night Moon Burst.mat` | Stars at night |
+
+3. **Day Night** auto-links if on same object
+4. **Min / Max Weather Minutes** = `4`–`10` (random change interval)
+5. **Window → Rendering → Lighting → Other Settings → Fog** = **ON** ✓ (master switch — Zone Fog still controls *where* it appears)
+6. On **Weather System** → **Enable Global Fog** = **OFF** ✓ (forest-only fog; turn ON only if you want rain fog everywhere)
+7. Press **Play**
+
+| Weather | Sky | Rain | Fog |
+|---------|-----|------|-----|
+| Clear | Epic sunset | No | Light |
+| Cloudy | Overcast | No | Medium |
+| Rain | Overcast | Yes | Heavy |
+| Storm | Deep Dusk | Heavy | Very heavy |
+| Night | Stars (overrides weather) | No | Slight |
+
+Rain particles follow the camera automatically. **No extra rain asset needed.**
+
+**Test faster:** set Min/Max Weather Minutes to `0.5` for quick changes while tuning.
+
+---
+
+### Steps — forest fog (and other zones)
+
+**Do not use Volume Profile → Fog** (often missing in URP Lighting menu). Use **Zone Fog** instead.
+
+1. In the **forest**, create empty **`Fog_Forest`**
+2. **Add Component → Box Collider** → **Is Trigger** = on → size box to cover forest
+3. **Add Component → Zone Fog**
+4. **Fog Density** = `0.02`–`0.03`
+5. **Weather System → Enable Global Fog** = **OFF** (important — otherwise fog is worldwide)
+6. **Lighting → Other Settings → Fog** = **ON** (required so fog can render at all)
+7. Play → walk into forest → mist; leave forest → **no fog**
+
+**Other zones (optional):**
+
+| Zone | Object | Fog Density |
+|------|--------|-------------|
+| Forest | `Fog_Forest` | `0.02`–`0.03` |
+| Beach haze | `Fog_Beach` | `0.005`–`0.01` |
+| Mountains | `Fog_Mountains` | `0.008` |
+| Village | none | skip (keep clear) |
+
+Each = empty + **Box Collider (trigger)** + **Zone Fog**.
+
+---
+
+### Optional polish
+
+1. Global Volume: subtle Bloom
+2. Zone trigger boxes + audio (waves / wind / rain)
+3. Hide clutter; Ctrl+S
 
 ### Done when
-World looks coherent day and night; player can walk/drive the full route.
+Sky works, sun moves, weather changes randomly, rain in wet weather, stars at night, forest has mist.
 
 ---
 
@@ -616,10 +866,13 @@ World looks coherent day and night; player can walk/drive the full route.
 | **Boats** | `Assets/Alstra_Boats/Boats LowPoly/Prefabs/` |
 | **Bridges** | `Assets/3DWorldInSeconds_Bridges/Prefabs/Models/` → `Model_Bridge_*` (not `*_Proto`) |
 | **Roads** | `Assets/EasyRoads3D/`, `Assets/KajamansRoads/Free/Prefabs/` |
-| **Water** | `Assets/AQUAS-Lite/Prefabs/`, `Assets/Game_Materials/` (`Sea_Water`, `Beach_Water`) |
+| **Water (cove / realistic)** | `3DWorldInSeconds_Bridges/Materials/Nature/LakeWater.mat` |
+| **Water (surrounding sea)** | `Game_Materials/Sea_Water.mat` on huge Plane |
+| **Boats + fish** | `Alstra_Boats/Boats LowPoly/Prefabs/` (FishV1–V4, boats) |
 | **Ground textures** | `Assets/Game_Textures/` |
 | Terrain layers (paint) | `Assets/SAND_1.terrainlayer`, `GRASS_1`, `DIRT_1`, `FOREST_FLOOR_1`, … or `Assets/Game_Terrains/` |
-| **Sky** | `Assets/AllSkyFree/` |
+| **Sky (AllSkyFree)** | `Assets/AllSkyFree/` — Epic_BlueSunset (day), Overcast (cloud/rain), Night MoonBurst (stars) |
+| Sky / weather / fog scripts | `DayNightCycle.cs`, `WeatherSystem.cs`, `ZoneFog.cs` in `MyWorld/Scripts/World/` |
 | **Player** | `Assets/StarterAssets/ThirdPersonController/Prefabs/` (`PlayerArmature`, `MainCamera`) |
 | **Your finished prefabs** | `Assets/MyWorld/Prefabs/` (`Vehicles/`, `Buildings/` — what *you* save) |
 | My scripts | `Assets/MyWorld/Scripts/` |
@@ -669,7 +922,11 @@ More build steps for each zone: World §7–§12 in this same file.
 | Drive bike | BikeController + 2 WheelColliders + Seat + EnterExit |
 | Boat | BoatController + Seat + EnterExit |
 | House enter | HouseDoor |
-| Day/night | DayNightCycle |
+| Day/night (sun moves) | DayNightCycle on `DayNight` + Directional Light in **Sun** slot |
+| Random weather + rain | WeatherSystem (same object as DayNight) + AllSkyFree mats |
+| Forest / zone fog | ZoneFog + Box Collider trigger (`Fog_Forest`, etc.) |
+| Fish swim | FishSwim on FishV1–V4 prefabs |
+| Drive boat | BoatController + VehicleSeat + VehicleEnterExit |
 | Zone name/audio | ZoneTrigger, AmbientZoneAudio |
 | Fast car rig | Menu **MyWorld → Vehicles → Create Car Rig From Selection** |
 
@@ -687,6 +944,11 @@ All under `Assets/MyWorld/Scripts/`.
 | E enters then instantly exits | Update VehicleEnterExit (exit lock); wait a moment before pressing E again |
 | Hard to enter on slopes | Stand closer; ExitPoint beside door; scripts snap exit to ground |
 | Want better car camera | MainCamera → Camera Follow Target → Drive Offset / Reverse Offset |
+| Sun still visible at night | Use **Night Sky** on Weather System or Day Night Cycle (Epic sky has baked sun) |
+| No fog in forest | Zone Fog + trigger box; Lighting → Fog ON; **Enable Global Fog OFF** on Weather System |
+| Fog everywhere (don't want) | Weather System → **Enable Global Fog OFF**; only use Zone Fog in forest |
+| Volume has no Fog override | Normal in URP — use **Zone Fog** script instead (§12) |
+| No rain | Weather System on DayNight; wait or lower Min Weather Minutes |
 | Input System errors (`Input.GetKey`) | Project uses new Input System; use updated MyWorld scripts |
 | Sitting faces car rear / drives wrong way | Mesh child Y=180 so hood = blue Z; see §3 |
 | Car flips | Lower COM; lower torque; raise mass a bit — §6 |

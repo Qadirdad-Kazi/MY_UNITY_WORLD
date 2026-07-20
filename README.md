@@ -13,7 +13,7 @@
 
 ### → [Open the Master Guide](Assets/MyWorld/Docs/MASTER_GUIDE.md) ←
 
-*Player · First car · Fast next cars · Tuning · 6 world sections*
+*Player · First car · Tuning · Sky · Weather · Fog · World sections*
 
 </div>
 
@@ -37,7 +37,7 @@ Click a link to jump. Read only what you need.
 | | [9 — Forest](Assets/MyWorld/Docs/MASTER_GUIDE.md#9-world-3--forest--trees) | Trees and rocks |
 | | [10 — Village](Assets/MyWorld/Docs/MASTER_GUIDE.md#10-world-4--village--farm) | Houses and farm |
 | | [11 — Roads & bridges](Assets/MyWorld/Docs/MASTER_GUIDE.md#11-world-5--roads--bridges) | Paths and bridges |
-| | [12 — Sky & polish](Assets/MyWorld/Docs/MASTER_GUIDE.md#12-world-6--sky-daynight-polish) | Sky, lighting, finish |
+| | [12 — Sky, weather, fog](Assets/MyWorld/Docs/MASTER_GUIDE.md#12-world-6--sky-daynight-weather-fog--polish) | AllSkyFree, day/night, rain, forest fog |
 | | [13 — Asset folders](Assets/MyWorld/Docs/MASTER_GUIDE.md#13-asset-locations-cheat-sheet) | Houses, trees, cars, boats — where each folder is |
 | | [15 — Troubleshooting](Assets/MyWorld/Docs/MASTER_GUIDE.md#15-troubleshooting) | Common fixes |
 
