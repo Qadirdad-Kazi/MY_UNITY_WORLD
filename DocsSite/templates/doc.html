@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block body_class %}has-sidebar{% endblock %}
+
+{% block shell %}
+<aside class="sidebar" id="sidebar">
+  <p class="sidebar-label">Documents</p>
+  <nav class="side-nav">
+    {% for d in catalog %}
+    <a class="{% if d.id == entry.id %}active{% endif %}"
+       href="{% if d.id == 'master' %}{{ url_for('guide') }}{% else %}{{ url_for('doc_page', doc_id=d.id) }}{% endif %}">
+      <span class="num">·</span>
+      <span>{{ d.title }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+</aside>
+
+<main class="article-pane">
+  <article class="article">
+    <header class="article-header">
+      <p class="eyebrow">{{ entry.badge }} · <code>{{ source_path }}</code></p>
+      <h1>{{ entry.title }}</h1>
+      <p class="lede">{{ entry.blurb }}</p>
+    </header>
+
+    {% if toc %}
+    <details class="on-this-page" open>
+      <summary>On this page</summary>
+      <ul>
+        {% for t in toc %}
+        <li class="l{{ t.level }}"><a href="#{{ t.id }}">{{ t.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+
+    <div class="prose">
+      {{ content_html | safe }}
+    </div>
+  </article>
+</main>
+{% endblock %}

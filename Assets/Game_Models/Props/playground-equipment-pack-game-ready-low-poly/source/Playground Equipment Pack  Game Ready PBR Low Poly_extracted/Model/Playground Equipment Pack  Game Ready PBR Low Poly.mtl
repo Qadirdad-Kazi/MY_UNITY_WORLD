@@ -1,0 +1,60 @@
+# Blender 5.1.0 MTL File: 'Park.blend'
+# www.blender.org
+
+newmtl Black_Metal
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/kusgu/Desktop/Park/Texture/Black Metal/Metal046B_2K-JPG_Color.jpg
+map_Ns C:/Users/kusgu/Desktop/Park/Texture/Black Metal/Metal046B_2K-JPG_Roughness.jpg
+map_refl C:/Users/kusgu/Desktop/Park/Texture/Black Metal/Metal046B_2K-JPG_Metalness.jpg
+map_Bump -bm 1.000000 C:/Users/kusgu/Desktop/Park/Texture/Black Metal/Metal046B_2K-JPG_NormalDX.jpg
+
+newmtl Metal
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/kusgu/Desktop/Park/Texture/Metal/Metal032_2K-JPG_Color.jpg
+map_Ns C:/Users/kusgu/Desktop/Park/Texture/Metal/Metal032_2K-JPG_Roughness.jpg
+map_refl C:/Users/kusgu/Desktop/Park/Texture/Metal/Metal032_2K-JPG_Metalness.jpg
+map_Bump -bm 1.000000 C:/Users/kusgu/Desktop/Park/Texture/Metal/Metal032_2K-JPG_NormalDX.jpg
+
+newmtl Plate
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/kusgu/Desktop/Park/Texture/Diamond Plate/DiamondPlate006C_2K-JPG_Color.jpg
+map_Ns C:/Users/kusgu/Desktop/Park/Texture/Diamond Plate/DiamondPlate006C_2K-JPG_Roughness.jpg
+map_refl C:/Users/kusgu/Desktop/Park/Texture/Diamond Plate/DiamondPlate006C_2K-JPG_Metalness.jpg
+map_Bump -bm 1.000000 C:/Users/kusgu/Desktop/Park/Texture/Diamond Plate/DiamondPlate006C_2K-JPG_NormalDX.jpg
+
+newmtl Red_Plastic
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/kusgu/Desktop/Park/Texture/Red Plastic/Plastic007_2K-JPG_Color.jpg
+map_Ns C:/Users/kusgu/Desktop/Park/Texture/Red Plastic/Plastic007_2K-JPG_Roughness.jpg
+map_Bump -bm 1.000000 C:/Users/kusgu/Desktop/Park/Texture/Red Plastic/Plastic007_2K-JPG_NormalDX.jpg
+
+newmtl Yellow
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/kusgu/Desktop/Park/Texture/Yellow/Plastic016A_2K-JPG_Color.jpg
+map_Ns C:/Users/kusgu/Desktop/Park/Texture/Yellow/Plastic016A_2K-JPG_Roughness.jpg
+map_Bump -bm 1.000000 C:/Users/kusgu/Desktop/Park/Texture/Yellow/Plastic016A_2K-JPG_NormalDX.jpg

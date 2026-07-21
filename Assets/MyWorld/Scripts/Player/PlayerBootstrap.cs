@@ -13,8 +13,8 @@ namespace MyWorld.Player
         private void Start()
         {
             if (!snapOnStart) return;
-            if (player == null) player = FindFirstObjectByType<PlayerMotor>();
-            var spawn = FindFirstObjectByType<PlayerSpawnPoint>();
+            if (player == null) player = FindAnyObjectByType<PlayerMotor>();
+            var spawn = FindAnyObjectByType<PlayerSpawnPoint>();
             if (player == null || spawn == null) return;
             player.Teleport(spawn.transform.position, spawn.transform.rotation);
         }

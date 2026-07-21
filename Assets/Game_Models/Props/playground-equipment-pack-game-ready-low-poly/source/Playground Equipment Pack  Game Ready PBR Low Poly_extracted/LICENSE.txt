@@ -1,0 +1,35 @@
+=========================================================
+LICENSE
+=========================================================
+
+Copyright (c) 2026 Fevzi Beydili
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this asset, to use it in personal and
+commercial projects, subject to the following conditions:
+
+You are allowed to:
+
+• Use this asset in personal projects.
+• Use this asset in commercial games.
+• Modify the asset.
+• Include the asset in interactive applications.
+
+You are NOT allowed to:
+
+• Resell this asset as your own.
+• Redistribute this asset on other websites.
+• Upload this asset to another asset marketplace.
+• Claim authorship of this asset.
+• Sell this asset individually or as part of another asset pack.
+
+Attribution is appreciated but not required.
+
+THE ASSET IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED.
+
+Created by
+
+Fevzi Beydili
+
+2026

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page_title or "MY UNITY WORLD Docs" }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}" />
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="atmosphere" aria-hidden="true"></div>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open sections menu" aria-expanded="false">☰</button>
+
+    <a class="brand" href="{{ url_for('home') }}">
+      <span class="brand-mark">MW</span>
+      <span class="brand-text">
+        <strong>MY UNITY WORLD</strong>
+        <em>Field docs</em>
+      </span>
+    </a>
+
+    <div class="search-wrap">
+      <input id="search-input" type="search" placeholder="Search sit, bike, horn, fog…" autocomplete="off" aria-label="Search docs" />
+      <kbd class="search-kbd" title="Press / to focus">/</kbd>
+      <div id="search-results" class="search-results" hidden role="listbox"></div>
+    </div>
+
+    <nav class="top-links">
+      <a href="{{ url_for('guide') }}">Master Guide</a>
+      <a href="{{ url_for('home') }}#archives">Archives</a>
+    </nav>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+  <div class="shell">
+    {% block shell %}{% endblock %}
+  </div>
+
+  <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -7,6 +7,9 @@ namespace MyWorld.Vehicles
     {
         public bool IsPlayerDriving { get; private set; }
 
+        /// <summary>True when mesh faces opposite transform.forward (W uses Invert Throttle).</summary>
+        public virtual bool InvertDriveForward => false;
+
         public virtual void SetPlayerDriving(bool driving)
         {
             IsPlayerDriving = driving;

@@ -43,6 +43,9 @@ namespace MyWorld.Player
         {
             if (!_enabledMotor) return;
 
+            var swim = GetComponent<PlayerSwim>();
+            if (swim != null && swim.IsSwimming) return;
+
             IsGrounded = Physics.CheckSphere(
                 transform.TransformPoint(groundCheckOffset),
                 groundCheckRadius,

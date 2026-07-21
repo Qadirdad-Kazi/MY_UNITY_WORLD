@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block body_class %}has-sidebar{% endblock %}
+
+{% block shell %}
+<aside class="sidebar" id="sidebar">
+  <p class="sidebar-label">Master Guide</p>
+  <nav class="side-nav">
+    {% for s in sections %}
+    <a class="{% if s.id == current.id %}active{% endif %}" href="{{ url_for('guide', section_id=s.id) }}">
+      <span class="num">{{ s.num }}</span>
+      <span>{{ s.title }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+</aside>
+
+<main class="article-pane">
+  <article class="article">
+    <header class="article-header">
+      <p class="eyebrow">Section {{ current.num }} · Master Guide</p>
+      <h1>{{ current.title }}</h1>
+    </header>
+
+    {% if toc %}
+    <details class="on-this-page" open>
+      <summary>On this page</summary>
+      <ul>
+        {% for t in toc %}
+        <li class="l{{ t.level }}"><a href="#{{ t.id }}">{{ t.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+
+    <div class="prose">
+      {{ content_html | safe }}
+    </div>
+
+    <nav class="pager">
+      {% if prev_s %}
+      <a class="pager-link prev" href="{{ url_for('guide', section_id=prev_s.id) }}">
+        <span>Previous</span>
+        <strong>{{ prev_s.title }}</strong>
+      </a>
+      {% else %}
+      <span></span>
+      {% endif %}
+      {% if next_s %}
+      <a class="pager-link next" href="{{ url_for('guide', section_id=next_s.id) }}">
+        <span>Next</span>
+        <strong>{{ next_s.title }}</strong>
+      </a>
+      {% endif %}
+    </nav>
+  </article>
+</main>
+{% endblock %}

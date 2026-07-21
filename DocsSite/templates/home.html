@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block shell %}
+<main class="home">
+  <section class="hero">
+    <div class="hero-plane" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-brand"><span>Open-world build guide</span>MY UNITY WORLD</p>
+      <h1>One map. Every setup step you need.</h1>
+      <p class="lede">
+        Player, vehicles, sit poses, swim, NPCs, animals, weather — live from the Master Guide.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="{{ url_for('guide') }}">Open Master Guide</a>
+        <a class="btn ghost" href="#topics">Jump to a topic</a>
+      </div>
+      <p class="hint">Edit <code>Assets/MyWorld/Docs/MASTER_GUIDE.md</code> · refresh this page</p>
+    </div>
+  </section>
+
+  {% if topic_chips %}
+  <section class="topic-chips" id="topics">
+    <p class="section-kicker">Quick links</p>
+    <h2>Jump to a topic</h2>
+    <div class="chips">
+      {% for t in topic_chips %}
+      <a class="chip" href="{{ url_for('guide', section_id=t.id) }}">{{ t.label }}</a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="order-strip" id="order">
+    <p class="section-kicker">Suggested path</p>
+    <h2>Recommended build order</h2>
+    <ol class="order-path">
+      {% for s in order_sections %}
+      <li>
+        <a href="{{ url_for('guide', section_id=s.id) }}">
+          <span class="ord-num">{{ s.num }}</span>
+          <span>{{ s.title }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section id="sections">
+    <header class="section-head">
+      <p class="section-kicker">Master Guide</p>
+      <h2>Browse by chapter</h2>
+      <p>Grouped the same way you build — player &amp; vehicles first, then world, then life systems.</p>
+    </header>
+
+    {% for group in section_groups %}
+    <div class="group-block">
+      <div class="group-label">
+        <h3>{{ group.label }}</h3>
+        <span>{{ group.sections|length }} sections</span>
+      </div>
+      <div class="cards">
+        {% for s in group.sections %}
+        <a class="card" href="{{ url_for('guide', section_id=s.id) }}">
+          <div class="card-top">
+            <span class="card-num">{{ s.num }}</span>
+            <span class="card-go">Open →</span>
+          </div>
+          <strong>{{ s.title }}</strong>
+          {% if s.blurb %}<span class="card-blurb">{{ s.blurb }}</span>{% endif %}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section class="archives" id="archives">
+    <header class="section-head">
+      <p class="section-kicker">Library</p>
+      <h2>All documents</h2>
+      <p>Primary guides first. Archives kept for deep reference when rebuilding from scratch.</p>
+    </header>
+
+    <div class="doc-list">
+      {% for d in primary_docs %}
+      <a class="doc-row primary" href="{% if d.id == 'master' %}{{ url_for('guide') }}{% else %}{{ url_for('doc_page', doc_id=d.id) }}{% endif %}">
+        <span class="badge">{{ d.badge }}</span>
+        <div>
+          <strong>{{ d.title }}</strong>
+          <p>{{ d.blurb }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <h3 class="archive-label">Archive / extras</h3>
+    <div class="doc-list">
+      {% for d in archive_docs %}
+      <a class="doc-row" href="{{ url_for('doc_page', doc_id=d.id) }}">
+        <span class="badge muted">{{ d.badge }}</span>
+        <div>
+          <strong>{{ d.title }}</strong>
+          <p>{{ d.blurb }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

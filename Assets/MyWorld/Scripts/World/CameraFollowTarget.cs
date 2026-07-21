@@ -30,6 +30,7 @@ namespace MyWorld.World
         private Transform _vehicle;
         private Rigidbody _vehicleRb;
         private float _reverseBlend;
+        private bool _invertForward;
 
         private void LateUpdate()
         {
@@ -56,9 +57,12 @@ namespace MyWorld.World
 
         private void UpdateDrivingCamera()
         {
+            Vector3 driveFwd = _invertForward ? -_vehicle.forward : _vehicle.forward;
+            Quaternion driveRot = Quaternion.LookRotation(driveFwd, Vector3.up);
+
             float along = 0f;
             if (_vehicleRb != null)
-                along = Vector3.Dot(_vehicleRb.linearVelocity, _vehicle.forward);
+                along = Vector3.Dot(_vehicleRb.linearVelocity, driveFwd);
 
             bool wantReverse = along < -reverseSpeedThreshold;
             float targetBlend = wantReverse ? 1f : 0f;
@@ -68,7 +72,8 @@ namespace MyWorld.World
                 reverseBlendSpeed * Time.deltaTime);
 
             Vector3 localOffset = Vector3.Lerp(driveOffset, reverseOffset, _reverseBlend);
-            Vector3 desiredPos = _vehicle.TransformPoint(localOffset);
+            // World meters + visual forward (ignores FBX scale; respects Invert Chase Camera).
+            Vector3 desiredPos = _vehicle.position + driveRot * localOffset;
             Vector3 lookAt = _vehicle.position + Vector3.up * lookHeight;
 
             float t = 1f - Mathf.Exp(-drivePositionSharpness * Time.deltaTime);
@@ -81,11 +86,13 @@ namespace MyWorld.World
         public void SetTarget(Transform t) => target = t;
 
         /// <summary>Call when the player enters a vehicle.</summary>
-        public void BeginDriving(Transform vehicle, Rigidbody vehicleBody = null)
+        /// <param name="invertForward">True when mesh faces opposite transform.forward.</param>
+        public void BeginDriving(Transform vehicle, Rigidbody vehicleBody = null, bool invertForward = false)
         {
             _driving = true;
             _vehicle = vehicle;
             _vehicleRb = vehicleBody != null ? vehicleBody : vehicle.GetComponent<Rigidbody>();
+            _invertForward = invertForward;
             _reverseBlend = 0f;
         }
 
@@ -95,6 +102,7 @@ namespace MyWorld.World
             _driving = false;
             _vehicle = null;
             _vehicleRb = null;
+            _invertForward = false;
             _reverseBlend = 0f;
         }
 

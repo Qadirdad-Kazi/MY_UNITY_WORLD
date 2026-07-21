@@ -33,6 +33,8 @@ namespace MyWorld.Vehicles
         [Tooltip("Enable if A steers right / D steers left.")]
         [SerializeField] private bool invertSteer;
 
+        public override bool InvertDriveForward => invertThrottle;
+
         [Header("Suspension (applied on Awake)")]
         [SerializeField] private float suspensionDistance = 0.25f;
         [SerializeField] private float spring = 35000f;

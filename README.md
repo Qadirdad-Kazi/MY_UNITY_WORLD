@@ -26,17 +26,18 @@ Click a link to jump. Read only what you need.
 | | Section | What it does (simple English) |
 |---|---------|-------------------------------|
 | **★** | **[MASTER GUIDE (full)](Assets/MyWorld/Docs/MASTER_GUIDE.md)** | **Everything in one file** — start here |
+| **★** | **[Localhost Docs Site](DocsSite/README.md)** | **Beautiful web UI** — run `DocsSite/start.bat` → http://127.0.0.1:5050 |
 | | [1 — Before you start](Assets/MyWorld/Docs/MASTER_GUIDE.md#1-before-you-start) | Scene path and tidy Hierarchy |
 | | [2 — Player (walk)](Assets/MyWorld/Docs/MASTER_GUIDE.md#2-part-a--player-walk-the-world) | Character + camera so you can walk |
 | | [3 — First car](Assets/MyWorld/Docs/MASTER_GUIDE.md#3-part-b--first-car-full-setup-once) | Build **one** working car (do once) |
 | | [4 — Second car (fast)](Assets/MyWorld/Docs/MASTER_GUIDE.md#4-second-car--and-every-car-after--fastest-way) | Duplicate prefab / swap mesh only |
-| | [5 — All vehicle types](Assets/MyWorld/Docs/MASTER_GUIDE.md#5-part-c--all-vehicle-types-cars-bikes-boats) | Cars, bikes, boats list |
-| | [6 — Tune mass / slip / bounce](Assets/MyWorld/Docs/MASTER_GUIDE.md#6-tune-vehicles--mass-grip-bounce-flips) | Mass, grip, bouncing, flipping |
+| | [5 — All vehicles + bike setup](Assets/MyWorld/Docs/MASTER_GUIDE.md#5-part-c--all-vehicle-types-cars-bikes-boats) | Cars, **first bike steps**, boats |
+| | [6 — Tune mass / slip / bounce](Assets/MyWorld/Docs/MASTER_GUIDE.md#6-tune-vehicles--mass-grip-bounce-flips) | Mountain, Ferrari, sports/trail bikes |
 | | [7 — Terrain](Assets/MyWorld/Docs/MASTER_GUIDE.md#7-world-1--terrain--ground-paint) | Sculpt and paint ground |
 | | [8 — Beach & water](Assets/MyWorld/Docs/MASTER_GUIDE.md#8-world-2--beach--water) | Shore, water, pier |
 | | [9 — Forest](Assets/MyWorld/Docs/MASTER_GUIDE.md#9-world-3--forest--trees) | Trees and rocks |
 | | [10 — Village](Assets/MyWorld/Docs/MASTER_GUIDE.md#10-world-4--village--farm) | Houses and farm |
-| | [11 — Roads & bridges](Assets/MyWorld/Docs/MASTER_GUIDE.md#11-world-5--roads--bridges) | Paths and bridges |
+| | [11 — Roads & bridges](Assets/MyWorld/Docs/MASTER_GUIDE.md#11-world-5--roads--bridges) | EasyRoads3D click-terrain roads, bridges |
 | | [12 — Sky, weather, fog](Assets/MyWorld/Docs/MASTER_GUIDE.md#12-world-6--sky-daynight-weather-fog--polish) | AllSkyFree, day/night, rain, forest fog |
 | | [13 — Asset folders](Assets/MyWorld/Docs/MASTER_GUIDE.md#13-asset-locations-cheat-sheet) | Houses, trees, cars, boats — where each folder is |
 | | [15 — Troubleshooting](Assets/MyWorld/Docs/MASTER_GUIDE.md#15-troubleshooting) | Common fixes |
@@ -59,16 +60,21 @@ Click a link to jump. Read only what you need.
 
 1. Open this repo in **Unity Hub** (Unity 6 / URP)
 2. Open scene `Assets/Scenes/MY WORLD`
-3. Open **[`MASTER_GUIDE.md`](Assets/MyWorld/Docs/MASTER_GUIDE.md)**
+3. Open **[`MASTER_GUIDE.md`](Assets/MyWorld/Docs/MASTER_GUIDE.md)**  
+   **or** run the docs website: `DocsSite/start.bat` → http://127.0.0.1:5050
 4. Do **Player** → **First car** → save as prefab
 5. Next cars: **Duplicate → swap mesh** (Master Guide §4)
 6. If the car feels bad: **Tune** (Master Guide §6 — mass, slip, bounce)
 7. Then build world sections 7–12
 
-```text
-Local path example:
-D:\Github Clones\MY_UNITY_WORLD
+### Localhost documentation (recommended)
+
+```bat
+cd DocsSite
+start.bat
 ```
+
+Opens a section-based web UI with Master Guide + all archive docs + search.
 
 ### Cars in short
 

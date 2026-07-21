@@ -163,6 +163,11 @@ namespace StarterAssets
 
         private void Update()
         {
+            // MyWorld swim: skip locomotion/gravity so PlayerSwim can drive the CharacterController
+            var swim = GetComponent<MyWorld.Player.PlayerSwim>();
+            if (swim != null && swim.IsSwimming)
+                return;
+
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();

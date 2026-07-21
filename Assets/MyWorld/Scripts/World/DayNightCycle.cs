@@ -39,12 +39,12 @@ namespace MyWorld.World
         private void Awake()
         {
             _weather = GetComponent<WeatherSystem>();
-            if (_weather == null) _weather = FindFirstObjectByType<WeatherSystem>();
+            if (_weather == null) _weather = FindAnyObjectByType<WeatherSystem>();
         }
 
         private void Reset()
         {
-            sun = RenderSettings.sun != null ? RenderSettings.sun : FindFirstObjectByType<Light>();
+            sun = RenderSettings.sun != null ? RenderSettings.sun : FindAnyObjectByType<Light>();
             sunColor = new Gradient();
             sunColor.SetKeys(
                 new[]
