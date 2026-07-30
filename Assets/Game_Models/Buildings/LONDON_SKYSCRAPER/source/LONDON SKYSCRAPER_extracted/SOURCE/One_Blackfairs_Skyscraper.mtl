@@ -1,0 +1,218 @@
+# Blender 5.0.1 MTL File: 'One_Blackfairs_Skyscraper.blend'
+# www.blender.org
+
+newmtl Building_Elements_Trim
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Elements_Trim_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Elements_Trim_Roughness.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Elements_Trim_Normal.png
+
+newmtl Building_Facade
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/FACADE_DIFFUSE.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/FACADE_ROUGHNESS.png
+map_refl C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/FACADE_MET.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/FACADE_OPACITY.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/FACADE_NORMAL.png
+
+newmtl Building_Maintenance_Unit
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Maintenance_Unit_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Maintenance_Unit_Roughness.png
+map_refl C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Maintenance_Unit_Met.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Building_Maintenance_Unit_Normal.png
+
+newmtl Color_Pallete
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/Texture_Pallete_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/Texture_Pallete_Roughness.png
+map_refl C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/Texture_Pallete_Met.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/Texture_Pallete_Emmisive.png
+
+newmtl Concrete_Pillar
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Concrete_Pillar_01_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Concrete_Pillar_01__Roughness.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Concrete_Pillar_01_Normal.png
+
+newmtl Flare_Red
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Flare_Red_Diffuse.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Flare_Red_Diffuse.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Flare_Red_Opacity.png
+
+newmtl Furniture
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.450000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Interior_Furniture_Diffuse.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Interior_Furniture_Emmisive.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Interior_Furniture_Opacity.png
+
+newmtl Glass_Generic
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.383984 0.149415 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Glass_Generic_More_Opaque
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.383984 0.149415 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Glass_Lobby
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.383984 0.149415 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Glass_Railing
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.383984 0.149415 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Interior_Blinds
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Blinds_Trimsheet_Diffuse_V2.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Blinds_Trimsheet_Roughness.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Blinds_Trimsheet_Diffuse_V2.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Blinds_Trimsheet_Normal.png
+
+newmtl Interior_Top
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Interior_Top_Diffuse.jpg
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_TOP/Interior_Top_Emmisive_Baked.jpg
+
+newmtl Lobby_Curtains
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Curtain_Lobby_Diffuse.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Curtain_Lobby_Translucency_BAKED.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Curtain_Lobby_Opacity.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Curtain_Lobby_Normal.png
+
+newmtl Lobby_Floor
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Floors_Diffuse.jpg
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Floors_Roughness.jpg
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Floors_Emmisive.jpg
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Floors_Normal.jpg
+
+newmtl Lobby_Furniture
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Furniture_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Furniture_Roughness.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Furniture_Emmisive_BAKED.png
+map_d C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Furniture_Opacity.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Furniture_Normal.png
+
+newmtl Lobby_Interior_1
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Interior_01_Diffuse.jpg
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Interior_01_Roughness.png
+map_refl C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Interior_01_Met.png
+map_Ke C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Interior_01_Emmisive_BAKED.jpg
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/ALL INTERIORS/INTERIOR_LOBBY/Lobby_Interior_01_Normal.jpg
+
+newmtl Sidewalk_01
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_01_Diffuse.jpg
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_01_Roughness.jpg
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_01_Normal.jpg
+
+newmtl Sidewalk_02
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_02_Diffuse.jpg
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_02_Roughness.jpg
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/SIDEWALKS/Sidewalk_02_Normal.jpg
+
+newmtl Top_Piece
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Top_Piece_Diffuse.png
+map_Ns C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Top_Piece_Roughness.png
+map_Bump -bm 1.000000 C:/Users/Mazen/Desktop/London, One Blackfriars Skyscraper/TEXTURES/BUILDING/Top_Piece_Normal.png
