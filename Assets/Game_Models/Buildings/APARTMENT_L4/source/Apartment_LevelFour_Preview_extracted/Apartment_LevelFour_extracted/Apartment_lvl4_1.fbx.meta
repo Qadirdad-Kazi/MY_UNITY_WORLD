@@ -3,13 +3,19 @@ guid: 0ec831a9c1b32164ab846413d8053130
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Placeable
+    second: {fileID: 2100000, guid: 5b672f79f319494798b5c72a2a6489ee, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
-    searchTexturesGlobally: 0
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

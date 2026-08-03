@@ -3,13 +3,89 @@ guid: 376c55eeadb29ed4f8a32b9252b2712b
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mainMattoni
+    second: {fileID: 2100000, guid: 1ebe71d3b4d749928ae347da5d55ffff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: altriBricks
+    second: {fileID: 2100000, guid: eaefb70063ff47d4ab9edcc4686aceff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ciminiera
+    second: {fileID: 2100000, guid: 35633cd3bbe7441f8ca9b5871b09edac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boiler
+    second: {fileID: 2100000, guid: 85f1179cc7ff4815a96d42fbebdbd1d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Acciaio
+    second: {fileID: 2100000, guid: 90364b603b5a4d538193dff10ee11bea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ghisa
+    second: {fileID: 2100000, guid: 6482544dab2b45febc7c8c83cb1e9046, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RuotaEsterna
+    second: {fileID: 2100000, guid: 97179d9ec0424202810a189229db6278, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ruotaInterna
+    second: {fileID: 2100000, guid: 8d4d335a81b54a86916cd4512667cc44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: porta
+    second: {fileID: 2100000, guid: cd5d1fe321504a2a9a0dfbc57b57aef4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: phong1
+    second: {fileID: 2100000, guid: 5c89b852789f45138d6c51dd1ebfa4a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: phong2
+    second: {fileID: 2100000, guid: 9dae5e97af814b83995fba322da463ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: phong3
+    second: {fileID: 2100000, guid: 2bdb4db9c9a047f4a01782dfc6303d06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 1c8d7fed55de42c8987847cf5dac7df6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tettoFabbrica
+    second: {fileID: 2100000, guid: d4f59cf90df74da4a2b8661bd84f66eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vetro
+    second: {fileID: 2100000, guid: 88ba77e33e5b4c7289b26fc2fe48f021, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
-    searchTexturesGlobally: 0
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

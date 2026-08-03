@@ -3,13 +3,19 @@ guid: 9a9d17353f2cd6247a5759a2b1543ff5
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Background_Night_Buildings
+    second: {fileID: 2100000, guid: 35bdde7d5cf84320a6dcdaea8f0b01cc, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
-    searchTexturesGlobally: 0
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

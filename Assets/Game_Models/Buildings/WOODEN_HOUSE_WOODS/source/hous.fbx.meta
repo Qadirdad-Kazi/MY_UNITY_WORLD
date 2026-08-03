@@ -3,13 +3,64 @@ guid: ac8485635f784304a9d24f215bf38f11
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 31dccee85d5c44279a45ebf2067c41b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 27135a952cbe44fc9f43498a137a5b3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 99eaab889dcb42f9a863110f44bb22fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 99139e7349434b54b6a0647be9707319, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: 513198a4b5a9465d910fb1a944fe3221, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: fa1eb03745b9421b85fcca69c9596b6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.008
+    second: {fileID: 2100000, guid: 0bae3392b50e4d209ea6320ec57513e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.010
+    second: {fileID: 2100000, guid: 8600248e2032457db5a51d7bd75e699b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.011
+    second: {fileID: 2100000, guid: dcef050842504d8980d6f6c62a91ad7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.012
+    second: {fileID: 2100000, guid: 3a5ef9c5fc8c409e8af5b21b5b7383b8, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
-    searchTexturesGlobally: 0
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

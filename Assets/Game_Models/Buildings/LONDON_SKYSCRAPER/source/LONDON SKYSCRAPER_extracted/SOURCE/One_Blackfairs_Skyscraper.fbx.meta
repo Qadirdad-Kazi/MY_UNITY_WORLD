@@ -3,13 +3,114 @@ guid: 5e1fe2dc322414340b0d080cd4d36f2a
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Building_Elements_Trim
+    second: {fileID: 2100000, guid: 541f9838a8b1420f9ec96100b66907df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Building_Facade
+    second: {fileID: 2100000, guid: bc638efbfea84c2d8d18ed5f54c2c977, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Building_Maintenance_Unit
+    second: {fileID: 2100000, guid: 94250dd1353c48fda493eafe50312b93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Color_Pallete
+    second: {fileID: 2100000, guid: 5908ba00c669410ba36d813821c112b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Concrete_Pillar
+    second: {fileID: 2100000, guid: f81e672e93ff4f4ba085dd032b2679e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flare_Red
+    second: {fileID: 2100000, guid: e1b9a3159f2547a391f60eca51b9b8f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Furniture
+    second: {fileID: 2100000, guid: e9720fd09ddd41569a146bbcc5942b22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass_Generic
+    second: {fileID: 2100000, guid: 9fdaa78220034b718d0e1a17ae27f496, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass_Generic_More_Opaque
+    second: {fileID: 2100000, guid: 9fbb847a8eeb4065b93f9c61cc482362, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass_Lobby
+    second: {fileID: 2100000, guid: de7d567dbbba46a9aa6723c437287a22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass_Railing
+    second: {fileID: 2100000, guid: 7a08cbd021984947ad6344595f0b8da0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Interior_Blinds
+    second: {fileID: 2100000, guid: 4db87e7d64d84e4e8eda99af046d77ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Interior_Top
+    second: {fileID: 2100000, guid: 20ed43d21c714141b50ea85e1b358c6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lobby_Curtains
+    second: {fileID: 2100000, guid: b9a22920bdf84ce094efaffb26a114e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lobby_Floor
+    second: {fileID: 2100000, guid: 981e147e6e634f038905d69b6f6231f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lobby_Furniture
+    second: {fileID: 2100000, guid: 4552de7f8d7c4262a0d716efc0878bea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lobby_Interior_1
+    second: {fileID: 2100000, guid: 7bbced840be34d4997ee6844410dba79, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sidewalk_01
+    second: {fileID: 2100000, guid: d3b7b0642db54dbaaa4461b8929b4f19, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sidewalk_02
+    second: {fileID: 2100000, guid: b6045d7a0f4e49f58b90fadb576f38d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Top_Piece
+    second: {fileID: 2100000, guid: 7b5b69c92e7e4f10b4f604f9bc5363d1, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
-    searchTexturesGlobally: 0
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

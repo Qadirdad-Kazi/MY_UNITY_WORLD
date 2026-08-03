@@ -7,25 +7,26 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material_Building_04_1001
+      name: Material_Building_04_1011
     second: {fileID: 2100000, guid: 4a2218c0244bf9845897b6dd434db017, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material_Building_04_1011
+      name: Material_Building_04_1021
     second: {fileID: 2100000, guid: 4f6dc72df843e80439203528a2204784, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material_Building_04_1021
+      name: Material_Building_04_1031
     second: {fileID: 2100000, guid: 19778e2602541264a82a4fed27c96284, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material_Building_04_1031
+      name: Material_Building_04_1001
     second: {fileID: 2100000, guid: 08dfc3808d4b75c41a94a9c0a97cc39a, type: 2}
+
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

@@ -22,6 +22,14 @@ namespace MyWorld.Vehicles
             _rb = GetComponent<Rigidbody>();
             if (centerOfMass != null)
                 _rb.centerOfMass = transform.InverseTransformPoint(centerOfMass.position);
+
+            // Dynamic Rigidbodies cannot use concave MeshColliders.
+            foreach (var mc in GetComponentsInChildren<MeshCollider>(true))
+            {
+                if (!mc.convex)
+                    mc.convex = true;
+            }
+
             enabled = false;
         }
 
