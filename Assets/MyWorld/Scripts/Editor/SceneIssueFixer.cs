@@ -1,7 +1,6 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MyWorld.Editor
 {
@@ -48,11 +47,16 @@ namespace MyWorld.Editor
             foreach (var terrain in Object.FindObjectsByType<Terrain>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 var tc = terrain.GetComponent<TerrainCollider>();
-                if (tc != null && tc.enableTreeColliders)
+                if (tc == null) continue;
+
+                // enableTreeColliders is not always public across Unity versions — set via serialized property
+                var so = new SerializedObject(tc);
+                var prop = so.FindProperty("m_EnableTreeColliders");
+                if (prop != null && prop.boolValue)
                 {
-                    // Tree MeshColliders vs Terrain spam "MeshCollider is not supported on terrain"
                     Undo.RecordObject(tc, "Disable terrain tree colliders");
-                    tc.enableTreeColliders = false;
+                    prop.boolValue = false;
+                    so.ApplyModifiedProperties();
                     terrains++;
                     EditorUtility.SetDirty(tc);
                 }

@@ -1730,27 +1730,73 @@ Example mesh: `Assets/Game_Models/golden_eagle.glb` (or any bird pack you downlo
 
 ---
 
-### Setup — one bird / eagle
+### Setup — one bird / eagle / pigeon
 
-1. Drag bird/eagle mesh into the Scene **above** the ground (e.g. Y = 20–40)
+**Fast path (pigeon):** select the bird in Hierarchy → menu **MyWorld → Animals → Setup Selected As Flying Bird (Pigeon)**.  
+That adds **Flying Animal**, applies city-pigeon speeds/heights, enables obstacle avoidance, and wraps Tripo `-90°` meshes under a clean flight root.
+
+Manual:
+
+1. Drag bird/eagle mesh into the Scene **above** the ground (pigeon: Y ≈ `8`–`20` near city/park)
 2. Scale if needed so it looks right in the sky
 3. **Add Component → Flying Animal**
 4. Pick **Style**:
    - **Wander** — random flight in a volume (good default)
    - **Orbit** — circles a home point
    - **Figure8** — lazy figure-8
-5. Tune presets:
+5. Leave **Avoid Obstacles** on (SphereCast feelers + ground clearance so it doesn’t fly through buildings)
+6. Tune presets:
 
-| Creature | Move Speed | Wander Radius | Height Min/Max Offset |
-|----------|------------|---------------|------------------------|
-| Fly / insect | `8`–`14` | `5`–`12` | `-1` / `3` |
-| Small bird | `5`–`8` | `15`–`30` | `-2` / `8` |
-| Eagle | `3`–`6` | `40`–`80` | `-5` / `20` |
+| Creature | Move Speed | Wander Radius | Height Min/Max Offset | Best place |
+|----------|------------|---------------|------------------------|------------|
+| Fly / insect | `8`–`14` | `5`–`12` | `-1` / `3` | Near village / trees |
+| **Pigeon / small bird** | `5`–`8` | `25`–`40` | `3` / `18` | **City plazas, park, rooftops** |
+| Eagle | `3`–`6` | `40`–`80` | `-5` / `20` | Cliffs / open desert sky |
 
-6. **Play** — it should fly on its own  
-   Cyan gizmo (selected) = roam area
+7. **Play** — it should fly on its own  
+   Cyan gizmo = roam area · orange line = look-ahead feeler
 
-No collider needed (decorative). Remove colliders if the bird bumps into things.
+Flight uses ray/sphere feelers (no Rigidbody required). Keep the mesh as a **child** if the import has Rotation X = `-90`.
+
+---
+
+### Behavior (automatic — no extra setup)
+
+| State | What happens |
+|-------|----------------|
+| **Fly** | Normal wander / orbit / figure-8 |
+| **Rest** | After a while, slows to a lazy hover/circle (`Enable Resting`) |
+| **Flee** | If the **Player** (tag) comes within **Notice Distance**, speeds away, then calms down |
+
+Inspector: **Life cycle** + **Player awareness**. Red wire gizmo = notice radius.
+
+Your current Tripo pigeon is usually a **single static mesh** (no separate wing bones). Rest/flee still work as movement. Wing flapping needs a **rigged** bird + Animator (below).
+
+---
+
+### Realistic wings (when the model has wing bones)
+
+Scripts **drive movement**; **Animator** plays wing/body clips. `FlyingAnimal` pushes these params if they exist:
+
+| Parameter | Type | Meaning |
+|-----------|------|---------|
+| `Speed` | Float | Flight speed |
+| `Flap` | Float | `0` = glide / rest · `1` = hard flap (flee) |
+| `IsResting` | Bool | Resting |
+| `IsFleeing` | Bool | Fleeing from player |
+
+**How to wire a winged bird:**
+
+1. Use a **skinned / FBX** bird with an Armature (wings as bones), not a frozen Tripo statue  
+2. Import animations (or pack clips): **Fly / Flap**, **Glide**, **Idle/Land**  
+3. Create an **Animator Controller**:
+   - Blend or states using `Flap` + `IsResting` / `IsFleeing`  
+   - Example: Rest → idle wings · Fly → flap loop · Flee → faster flap  
+4. Add **Animator** on the bird (or child)  
+5. On **Flying Animal**, assign that Animator (auto-finds in children)  
+6. Play — movement + wing clips sync via those params  
+
+If there are **no wing bones**, you only get body motion (banking / bob). Procedural wing-skinning is not supported — use a rigged asset (Mixamo bird, Sketchfab animated crow, etc.).
 
 ---
 
@@ -1775,7 +1821,7 @@ No collider needed (decorative). Remove colliders if the bird bumps into things.
 ---
 
 ### Done when
-You look up and see at least one bird circling / wandering over the world.
+You look up and see at least one bird circling / wandering over the world, sometimes resting, and scattering when you walk under it.
 
 ---
 
@@ -1809,11 +1855,47 @@ They **raycast onto the terrain** — no NavMesh bake required.
 | Cow / sheep | `0.8`–`1.4` | `2`–`3` | `10`–`20` |
 
 4. **Height Offset** — raise/lower if feet sink or float (try `0` or `0.05`)
-5. Optional: assign **Animator** + Speed param if the model has walk anims
-6. **Play** — walks, idles, sometimes runs  
-   Green gizmo = roam area
+5. Optional: assign **Animator** if the model has walk/idle/run clips (see below)
+6. **Play** — walks, idles, rests, sometimes runs, flees when you approach  
+   Green gizmo = roam area · red wire = notice radius
 
 **Tip:** model forward (blue Z) should be the nose/face direction. If it walks backward → rotate mesh **Y = 180**.
+
+---
+
+### Behavior (automatic)
+
+| State | What happens |
+|-------|----------------|
+| **Idle** | Short pause after arriving |
+| **Walk / Run** | Wander inside the green circle |
+| **Rest** | Longer pause (`Enable Resting` + **Rest Chance**) — like grazing / lying still |
+| **Flee** | Player within **Notice Distance** → run away, then calm down |
+
+---
+
+### Realistic legs / tail / head (rigged animals)
+
+Movement is scripted; **legs, tail, head** need an **Animator** on a skinned mesh.
+
+`GroundAnimal` drives:
+
+| Parameter | Type | Meaning |
+|-----------|------|---------|
+| `Speed` | Float | `0` idle/rest · walk · run/flee |
+| `IsResting` | Bool | Longer rest pose |
+| `IsFleeing` | Bool | Panic run |
+
+**How to wire:**
+
+1. Prefer animals with **bones** + clips (Idle, Walk, Run, optionally Eat/Sit)  
+2. Animator Controller: blend tree on `Speed` (Idle→Walk→Run), optional transitions for `IsResting` / `IsFleeing`  
+3. Assign Animator on **Ground Animal** (or leave empty — auto `GetComponentInChildren`)  
+4. Play — feet cycle while moving; rest/flee bools pick special clips if you added them  
+
+**Head / tail:** usually part of the walk/idle clips (look, ear flick, tail sway). For look-at-player IK you’d add a separate look-at script later; not required for ambient wildlife.
+
+Static meshes (no bones) will **slide** without leg animation — still rest/flee correctly as movement only.
 
 ---
 
@@ -1844,13 +1926,15 @@ They **raycast onto the terrain** — no NavMesh bake required.
 |---------|-----|
 | Falls through / floats | Adjust **Height Offset**; ensure Terrain Collider exists |
 | Spins / slides | Face mesh forward = blue Z; lower Turn Speed |
-| Stands still | Wait for idle timer; check Wander Radius; ground mask includes Terrain |
+| Stands still | Wait for idle/rest timer; check Wander Radius; ground mask includes Terrain |
+| No leg animation | Mesh needs bones + Animator Controller with `Speed` |
+| Doesn’t flee | Player tagged **Player**; **React To Player** on; raise Notice Distance |
 | Can’t find in Hierarchy | Must be a **placed prefab**, not a painted detail |
 
 ---
 
 ### Done when
-Animals walk around on the grass/dirt without flying or sinking.
+Animals walk and rest on the grass, and run away when you get close — with leg cycles if the model is animated.
 
 ---
 
